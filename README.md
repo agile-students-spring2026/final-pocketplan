@@ -1,6 +1,44 @@
-# Project Repository
+# Pocket Plan
 
-This repository will be used for team projects.
+## Product Vision Statement
+
+<!-- Fill in: one or two sentences describing the product vision. See [Product Vision Statement](https://knowledge.kitchen/content/courses/agile-development-and-devops/scrum/product-vision-statement/) -->
+
+_TBD_
+
+## Description
+
+<!-- Fill in: short description of the project and what it does -->
+
+_TBD_
+
+## Core Team Members
+
+<!-- Fill in: list each member with link to GitHub profile -->
+
+| Role | Name | GitHub |
+|------|------|--------|
+| _e.g. Developer_ | _Name_ | [@username](https://github.com/username) |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+
+## Project History & Contributing
+
+<!-- Fill in: brief history of how the project came to be -->
+
+_TBD_
+
+To contribute to this project, see **[CONTRIBUTING.md](./CONTRIBUTING.md)**.
+
+## Building and Testing
+
+<!-- Fill in: once the project reaches that stage, add instructions for building and running tests -->
+
+_TBD_
+
+## Additional Documentation
 
 Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
 
