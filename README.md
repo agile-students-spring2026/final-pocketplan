@@ -2,15 +2,11 @@
 
 ## Product Vision Statement
 
-<!-- Fill in: one or two sentences describing the product vision. See [Product Vision Statement](https://knowledge.kitchen/content/courses/agile-development-and-devops/scrum/product-vision-statement/) -->
-
-_TBD_
+**PocketPlan** helps college students plan their schedules more realistically by letting them estimate tasks, log actual time spent, and see how estimates compare to reality so they can recalibrate and avoid overcommitment.
 
 ## Description
 
-<!-- Fill in: short description of the project and what it does -->
-
-_TBD_
+PocketPlan is a mobile web application for college students who juggle coursework, jobs, extracurriculars, and social life. Users create tasks (assignments, exams, shifts, commitments), estimate how long each will take, and view daily and weekly schedules. After completing tasks, they log actual time spent and see simple comparisons between estimated and actual time. Gentle feedback helps them plan more realistically.
 
 ## Core Team Members
 
@@ -19,7 +15,7 @@ _TBD_
 | Role | Name | GitHub |
 |------|------|--------|
 | _e.g. Developer_ | _Name_ | [@username](https://github.com/username) |
-| | | | |
+|Scrum Master & Developer|Antonio Jackson|[@antoniojacksnn](https://github.com/antoniojacksnn)| 
 | | | | |
 | | | | |
 | | | | |
