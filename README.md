@@ -19,6 +19,7 @@ PocketPlan is a mobile web application for college students who juggle coursewor
 |Product Owner & Developer| | | |
 |Developer| | | |
 |Developer| | | |
+|Developer| | | |
 
 ## Project History & Contributing
 
