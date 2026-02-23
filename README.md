@@ -17,15 +17,13 @@ PocketPlan is a mobile web application for college students who juggle coursewor
 | _e.g. Developer_ | _Name_ | [@username](https://github.com/username) |
 |Scrum Master & Developer|Antonio Jackson|[@antoniojacksnn](https://github.com/antoniojacksnn)| 
 |Product Owner & Developer| | | |
-|Developer| | | |
+|Developer|Selma Nahas|[@berrizy](https://github.com/berrizy) | |
 |Developer| | | |
 |Developer| | | |
 
 ## Project History & Contributing
 
-<!-- Fill in: brief history of how the project came to be -->
-
-_TBD_
+PocketPlan began as a response to a common problem among college students: underestimating how long tasks actually take. What began as a general productivity concept quickly evolved into a focused tool centered on improving time estimation. By enabling users to estimate tasks, log time spent, and compare the two, PocketPlan helps students recognize planning patterns and adjust accordingly. The project's direction is rooted in one goal: to help students build more realistic planning habits over time. 
 
 To contribute to this project, see **[CONTRIBUTING.md](./CONTRIBUTING.md)**.
 
