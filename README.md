@@ -16,8 +16,8 @@ PocketPlan is a mobile web application for college students who juggle coursewor
 |------|------|--------|
 | _e.g. Developer_ | _Name_ | [@username](https://github.com/username) |
 |Scrum Master & Developer|Antonio Jackson|[@antoniojacksnn](https://github.com/antoniojacksnn)| 
-|Product Owner & Developer| | | |
-|Developer|Selma Nahas|[@berrizy](https://github.com/berrizy) | |
+|Product Owner & Developer|Selma Nahas|[@berrizy](https://github.com/berrizy)| 
+|Developer| | | |
 |Developer| | | |
 |Developer| | | |
 
