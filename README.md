@@ -19,7 +19,7 @@ PocketPlan is a mobile web application for college students who juggle coursewor
 |Product Owner & Developer|Selma Nahas|[@berrizy](https://github.com/berrizy)| 
 |Developer|Abdullah Noor|[@noorabdullahsami](https://github.com/noorabdullahsami)|
 |Developer|Christopher Cajamarca|[@ChrisC0205](https://github.com/ChrisC0205)|
-|Developer|Coco Ke|[@Carbo32N](https://github.com/LefeiKe)|
+|Developer|Coco Ke|[@LefeiKe](https://github.com/LefeiKe)|
 
 ## Project History & Contributing
 
