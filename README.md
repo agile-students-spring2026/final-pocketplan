@@ -26,9 +26,25 @@ To contribute to this project, see **[CONTRIBUTING.md](./CONTRIBUTING.md)**.
 
 ## Building and Testing
 
-<!-- Fill in: once the project reaches that stage, add instructions for building and running tests -->
+### Front-end (Sprint 1)
 
-_TBD_
+The React front-end lives in `front-end/` (create-react-app).
+
+1. **Prerequisites:** [Node.js](https://nodejs.org/) and npm.
+2. **Install and run:**
+   ```bash
+   cd front-end
+   npm install
+   npm start
+   ```
+   The app opens in the browser (default [http://localhost:3000](http://localhost:3000)).
+3. **Production build:**
+   ```bash
+   cd front-end
+   npm run build
+   ```
+   Output is in `front-end/build`.
+
 
 ## Additional Documentation
 
