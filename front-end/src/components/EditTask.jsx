@@ -4,8 +4,8 @@ function EditTask({onBack, task, onSaveTask, onDeleteTask}){
     const [effort, setEffort] =useState(task ? task.effort : 0);
     const [priority, setPriority] = useState(task ? task.priority : "");
     const[taskName, setTaskName]=useState(task ? task.name : "");
-    const [hours, setHours] = useState(task ? task.hours : 1);
-    const [minutes, setMinutes] = useState(task ? task.minutes : 10);
+    const [hours, setHours] = useState(task ? task.hours : 0);
+    const [minutes, setMinutes] = useState(task ? task.minutes : 0);
     const [ details, setDetails] = useState(task ? task.details : "");
 
     return(
@@ -24,34 +24,42 @@ function EditTask({onBack, task, onSaveTask, onDeleteTask}){
                 className="task-input" 
                 type="text"
                 value = {taskName}
-                onChange={(e) => setTaskName(e.target.value)}
-                
+                onChange={(e) => setTaskName(e.target.value)}  
             />
-
             <label className="task-label">
                 Estimated Time to Complete
             </label>
+
             <p className="task-sub">
                 Hours
             </p>
-            <input className="task-slider" type="range" min="1" max="5" value={hours} onChange={(e) => setHours(Number(e.target.value))}/>
-            <div className="task-numbers">
+            <input className="task-slider-hr" type="range" min="0" max="5" value={hours} onChange={(e) => setHours(Number(e.target.value))}/>
+            <div className="task-numbers-hr">
+                <span>0</span>
                 <span>1</span>
                 <span>2</span>
                 <span>3</span>
                 <span>4</span>
                 <span>5</span>
             </div>
+
             <p className="task-sub">
                 Minutes
             </p>
-            <input className="task-slider" type="range" min="10" max="50" step= "10" value = {minutes} onChange={(e) => setMinutes(Number(e.target.value))}/>
-            <div className ="task-numbers">
+            <input className="task-slider-min" type="range" min="0" max="55" step= "5" value = {minutes} onChange={(e) => setMinutes(Number(e.target.value))}/>
+            <div className ="task-numbers-min">
+                <span>0</span>
+                <span>5</span>
                 <span>10</span>
+                <span>15</span>
                 <span>20</span>
+                <span>25</span>
                 <span>30</span>
+                <span>35</span>
                 <span>40</span>
+                <span>45</span>
                 <span>50</span>
+                <span>55</span>
             </div>
             <label className="task-label">
                 Estimated Effort
@@ -63,7 +71,6 @@ function EditTask({onBack, task, onSaveTask, onDeleteTask}){
                 <span className={effort >= 4 ? "star active" : "star"} onClick={() => setEffort(4)}>★</span>
                 <span className={effort >= 5 ? "star active" : "star"} onClick={() => setEffort(5)}>★</span>
             </div>
-
             <label className="task-label"> 
                 Priority
             </label>
@@ -87,12 +94,11 @@ function EditTask({onBack, task, onSaveTask, onDeleteTask}){
                     High
                 </button>
             </div>
-
             <label className="task-label">
                 Details
             </label>
             <input className="task-input" type="text" value ={details} onChange={(e) => setDetails(e.target.value)}/>
-            <button className="save-btn" onClick={() => onSaveTask({...task, name: taskName, hours: hours, minutes: minutes, effort: effort, priority: priority, details: details,})}>
+            <button className="save-btn" onClick={() => onSaveTask({...task, name: taskName.trim() || "Unnamed Task", hours: hours, minutes: minutes, effort: effort, priority: priority, details: details,})}>
                 Save
             </button>
             <button 
