@@ -4,8 +4,8 @@ function AddTask({onBack, onSaveTask}){
     const [effort, setEffort] =useState(0);
     const [priority, setPriority] = useState("");
     const[taskName, setTaskName]=useState("");
-    const [hours, setHours] = useState(1);
-    const [minutes, setMinutes] = useState(10);
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
     const [ details, setDetails] = useState("");
     return(
         <div className="auth-card">
@@ -30,28 +30,39 @@ function AddTask({onBack, onSaveTask}){
             <label className="task-label">
                 Estimated Time to Complete
             </label>
+
             <p className="task-sub">
                 Hours
             </p>
-            <input className="task-slider" type="range" min="1" max="5" value={hours} onChange={(e) => setHours(Number(e.target.value))}/>
-            <div className="task-numbers">
+            <input className="task-slider-hr" type="range" min="0" max="5" value={hours} onChange={(e) => setHours(Number(e.target.value))}/>
+            <div className="task-numbers-hr">
+                <span>0</span>
                 <span>1</span>
                 <span>2</span>
                 <span>3</span>
                 <span>4</span>
                 <span>5</span>
             </div>
+
             <p className="task-sub">
                 Minutes
             </p>
-            <input className="task-slider" type="range" min="10" max="50" step= "10" value = {minutes} onChange={(e) => setMinutes(Number(e.target.value))}/>
-            <div className ="task-numbers">
+            <input className="task-slider-min" type="range" min="0" max="55" step= "5" value = {minutes} onChange={(e) => setMinutes(Number(e.target.value))}/>
+            <div className ="task-numbers-min">
+                <span>0</span>
+                <span>5</span>
                 <span>10</span>
+                <span>15</span>
                 <span>20</span>
+                <span>25</span>
                 <span>30</span>
+                <span>35</span>
                 <span>40</span>
+                <span>45</span>
                 <span>50</span>
+                <span>55</span>
             </div>
+
             <label className="task-label">
                 Estimated Effort
             </label>
@@ -91,7 +102,7 @@ function AddTask({onBack, onSaveTask}){
                 Details
             </label>
             <input className="task-input" type="text" value ={details} onChange={(e) => setDetails(e.target.value)}/>
-            <button className="save-btn" onClick={() => onSaveTask({name: taskName, hours: hours, minutes: minutes, effort: effort, priority: priority, details: details,})}>
+            <button className="save-btn" onClick={() => onSaveTask({name: taskName.trim() || "Unnamed Task", hours: hours, minutes: minutes, effort: effort, priority: priority, details: details,})}>
                 Save
             </button>
         </div>
