@@ -26,6 +26,7 @@
   max-width: 28rem;
   width: 100%;
   padding: 2rem 1.75rem;
+  margin: auto;
 }
 
 .auth-back {
@@ -52,6 +53,162 @@
   margin: 0 0 1.5rem;
 }
 
+.user-avatar{
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.user-avatar-placeholder{
+  font-size: 18px;
+  color: white;
+}
+
+.analytics-section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.analytics-section p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.preferences-section {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.preference-item span {
+  font-size: 16px;
+}
+
+.preference-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.actions {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-btn-primary {
+  background-color: #374151;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.auth-btn-primary:hover {
+  background-color: #1f2937;
+}
+
+.auth-btn-primary {
+  margin-top: 10px;
+}
+
+.auth-btn-primary:last-child {
+  margin-bottom: 20px;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.auth-back:hover {
+  color: #111;
+}
+
+.auth-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-field {
+  margin-bottom: 15px;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.auth-btn-primary {
+  background-color: #374151;
+  color: white;
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.auth-btn-primary:hover {
+  background-color: #1f2937;
+}
+
+.auth-btn-danger {
+  background-color: #dc2626;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.auth-btn-danger:hover {
+  background-color: #b91c1c;
+}
 .auth-logo {
   width: 80px;
   height: 80px;
@@ -317,4 +474,216 @@
 
 .day-task-item:hoover{
   text-decoration:overline;
+}
+
+.tasks-today-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.today-add-btn {
+  background: none;
+  border: none;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+}
+
+.tasks-for-today-box {
+  min-height: 320px;
+}
+
+.today-task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.today-task-row input {
+  width: 20px;
+  height: 20px;
+}
+
+.completed-task-row span {
+  color: #b5b5b5;
+  text-decoration: line-through;
+}
+
+.delete-confirm-text {
+  text-align: center;
+  font-size: 28px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.delete-task-name {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.dashboard-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  max-width: 28rem;
+  width: 100%;
+  padding: 2rem 1.75rem 3rem;
+}
+
+.dashboard-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.dashboard-profile-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: #111;
+  cursor: pointer;
+}
+
+.dashboard-profile-link:hover {
+  text-decoration: underline;
+}
+
+.dashboard-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 0.75rem;
+}
+
+.current-day {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0 0 2rem;
+}
+
+.dashboard-section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.tasks-section {
+  margin-bottom: 2.25rem;
+}
+
+.upcoming-section {
+  margin-bottom: 1rem;
+}
+
+.dashboard-empty-text {
+  font-size: 1rem;
+  color: #111;
+  margin-top: 1rem;
+}
+
+.dashboard-coming-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.dashboard-week-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.dashboard-week-link:hover {
+  text-decoration: underline;
+}
+
+.edit-profile-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  max-width: 28rem;
+  width: 100%;
+  padding: 2rem 1.75rem 3rem;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.edit-profile-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.edit-profile-label {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.edit-profile-input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.save-button {
+  background-color: #374151;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.save-button:hover {
+  background-color: #1f2937;
+}
+
+.delete-account-button {
+  background-color: #f44336;
+  color: white;
+  padding: 8px 15px; 
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: auto; 
+  margin-top: 15px;
+  align-self: center;
+}
+
+.delete-account-button:hover {
+  background-color: #d32f2f;
 }
