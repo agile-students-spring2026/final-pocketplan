@@ -16,6 +16,15 @@ function WeekView({onBack, onSelectDay, tasks}){
             <h2 className="week-title">
                 Week View
             </h2>
+            <div style={{marginBottom: "40px"}} className="week-day-group">
+                <button className="week-day-link" onClick={() => onSelectDay("Today")}>
+                Today:
+                </button>
+                <div className="week-empty">
+                    {tasks.filter((task) => task.day === "Today").length}{" "}
+                    {tasks.filter((task) => task.day === "Today").length === 1 ? "task" : "tasks"}
+                </div>
+            </div>
             <div style={{marginBottom: "40px"}} className= "week-day-group">
                 <button className="week-day-link" onClick={() => onSelectDay("Monday")}>
                 Monday:
