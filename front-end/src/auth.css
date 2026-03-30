@@ -375,6 +375,19 @@
   font-size: 16px;
 }
 
+.task-slider{
+  width: 100%;
+  margin: 0;
+  accent-color: #333;
+}
+
+.task-numbers{
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 10px 15px;
+  text-align: center;
+}
+
 .task-slider-min{
   width: 100%;
   margin: 0 0px;
