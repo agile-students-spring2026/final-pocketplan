@@ -1,8 +1,8 @@
 import React from "react";
 
 function Dashboard({ currentDay, tasks, onProfileClick, onWeekClick }) {
-  const todayTasks = tasks.filter((task) => task.day === "Today");
-  const upcomingTasks = tasks.filter((task) => task.day === "Upcoming");
+  const todayTasks = tasks.filter((task) => task.day === "Today" && !task.completed);
+  const upcomingTasks = tasks.filter((task) => task.day !== "Today" && !task.completed);
 
   return (
     <div className="dashboard-container">
