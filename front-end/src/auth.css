@@ -213,14 +213,9 @@
 .auth-logo {
   width: 80px;
   height: 80px;
-  background: #e5e7eb;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #9ca3af;
-  font-size: 0.85rem;
+  display: block;
   margin: 0 auto 1.75rem;
+  object-fit: contain;
 }
 
 .auth-field {

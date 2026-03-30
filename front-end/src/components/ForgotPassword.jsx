@@ -26,7 +26,7 @@ function ForgotPassword({ onBack }) {
         <button type="button" className="auth-back" onClick={onBack}>
           ← Go back
         </button>
-        <div className="auth-logo">logo</div>
+        <img src="/logo192.png" alt="PocketPlan logo" className="auth-logo" />
         <h1 className="auth-title">Forgot Password?</h1>
 
         {submitted ? (

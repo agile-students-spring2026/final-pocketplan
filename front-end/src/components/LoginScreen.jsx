@@ -9,7 +9,7 @@ function LoginScreen({ onBack, onLogin, onForgotPassword }) {
           ← Go back
         </button>
         <h1 className="auth-title">Log In</h1>
-        <div className="auth-logo">logo</div>
+        <img src="/logo192.png" alt="PocketPlan logo" className="auth-logo" />
         <div className="auth-field">
           <label htmlFor="login-email">Email</label>
           <input id="login-email" type="email" autoComplete="email" />

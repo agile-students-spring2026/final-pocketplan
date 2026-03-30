@@ -9,7 +9,7 @@ function SignUpPassword({ onBack, onNext }) {
           ← Go back
         </button>
         <h1 className="auth-title">Sign Up</h1>
-        <div className="auth-logo">logo</div>
+        <img src="/logo192.png" alt="PocketPlan logo" className="auth-logo" />
         <div className="auth-field">
           <label htmlFor="signup-password">Password</label>
           <input id="signup-password" type="password" autoComplete="new-password" />
