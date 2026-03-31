@@ -1,8 +1,11 @@
 import React from "react";
 
 function Dashboard({ currentDay, tasks, onProfileClick, onWeekClick, onAddTask }) {
+  const DAYS_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const todayTasks = tasks.filter((task) => task.day === "Today");
-  const upcomingTasks = tasks.filter((task) => task.day === "Upcoming");
+  const upcomingTasks = DAYS_ORDER.flatMap((day) =>
+    tasks.filter((task) => task.day === day).map((task) => ({ ...task, day }))
+  );
 
   return (
     <div className="dashboard-container">
@@ -37,7 +40,10 @@ function Dashboard({ currentDay, tasks, onProfileClick, onWeekClick, onAddTask }
           <p className="dashboard-empty-text">No upcoming tasks!</p>
         ) : (
           upcomingTasks.map((task, index) => (
-            <p key={index} className="dashboard-task">{task.name}</p>
+            <p key={index} className="dashboard-task">
+              <span style={{ color: "#6b7280", fontSize: "0.8rem", marginRight: "0.5rem" }}>{task.day}</span>
+              {task.name}
+            </p>
           ))
         )}
       </div>
