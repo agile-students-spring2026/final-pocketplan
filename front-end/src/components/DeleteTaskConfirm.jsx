@@ -17,12 +17,12 @@ function DeleteTaskConfirm({ task, onBack, onConfirmDelete, onCancel }) {
         {task ? task.name : "Task name?"}
       </p>
 
-      <button className="save-btn" onClick={onConfirmDelete} type="button">
-        Yes
+      <button className="delete-btn" onClick={onConfirmDelete} type="button">
+        Yes, Delete
       </button>
 
-      <button className="delete-btn" onClick={onCancel} type="button">
-        No
+      <button className="save-btn" onClick={onCancel} type="button">
+        No, Keep It
       </button>
     </div>
   );

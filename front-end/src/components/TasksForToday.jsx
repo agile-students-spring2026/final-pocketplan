@@ -18,27 +18,32 @@ function TasksForToday({ tasks, onBack, onAddTask, onToggleTask, onOpenEditView 
       </div>
 
       <div className="day-task-box tasks-for-today-box">
-        {incompleteTasks.map((task, index) => (
-          <label key={`incomplete-${index}`} className="today-task-row">
-            <input
-              type="checkbox"
-              checked={!!task.completed}
-              onChange={() => onToggleTask(task)}
-            />
-            <span>{task.name}</span>
-          </label>
-        ))}
-
-        {completedTasks.map((task, index) => (
-          <label key={`completed-${index}`} className="today-task-row completed-task-row">
-            <input
-              type="checkbox"
-              checked={!!task.completed}
-              onChange={() => onToggleTask(task)}
-            />
-            <span>{task.name}</span>
-          </label>
-        ))}
+        {tasks.length === 0 ? (
+          <p className="day-empty">No tasks for today. Tap + to add one!</p>
+        ) : (
+          <>
+            {incompleteTasks.map((task, index) => (
+              <label key={`incomplete-${index}`} className="today-task-row">
+                <input
+                  type="checkbox"
+                  checked={!!task.completed}
+                  onChange={() => onToggleTask(task)}
+                />
+                <span>{task.name}</span>
+              </label>
+            ))}
+            {completedTasks.map((task, index) => (
+              <label key={`completed-${index}`} className="today-task-row completed-task-row">
+                <input
+                  type="checkbox"
+                  checked={!!task.completed}
+                  onChange={() => onToggleTask(task)}
+                />
+                <span>{task.name}</span>
+              </label>
+            ))}
+          </>
+        )}
       </div>
 
       <button className="save-btn" onClick={onOpenEditView} type="button">

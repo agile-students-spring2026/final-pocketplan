@@ -31,7 +31,7 @@ function EditTask({onBack, task, onSaveTask, onDeleteTask}){
             </label>
 
             <p className="task-sub">
-                Hours
+                Hours <span className="slider-value">{hours}h</span>
             </p>
             <input className="task-slider-hr" type="range" min="0" max="5" value={hours} onChange={(e) => setHours(Number(e.target.value))}/>
             <div className="task-numbers-hr">
@@ -44,21 +44,14 @@ function EditTask({onBack, task, onSaveTask, onDeleteTask}){
             </div>
 
             <p className="task-sub">
-                Minutes
+                Minutes <span className="slider-value">{minutes}m</span>
             </p>
-            <input className="task-slider-min" type="range" min="0" max="55" step= "5" value = {minutes} onChange={(e) => setMinutes(Number(e.target.value))}/>
-            <div className ="task-numbers-min">
+            <input className="task-slider-min" type="range" min="0" max="55" step="5" value={minutes} onChange={(e) => setMinutes(Number(e.target.value))}/>
+            <div className="task-numbers-min">
                 <span>0</span>
-                <span>5</span>
-                <span>10</span>
                 <span>15</span>
-                <span>20</span>
-                <span>25</span>
                 <span>30</span>
-                <span>35</span>
-                <span>40</span>
                 <span>45</span>
-                <span>50</span>
                 <span>55</span>
             </div>
             <label className="task-label">

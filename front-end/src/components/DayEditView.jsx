@@ -7,7 +7,7 @@ function DayEditView({ tasks, onBack, onSelectTask }) {
         ← Go back
       </button>
 
-      <h2 className="week-title">All Tasks</h2>
+      <h2 className="week-title">Today's Tasks</h2>
 
       <div className="day-task-box">
         {tasks.length === 0 ? (

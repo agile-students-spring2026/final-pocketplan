@@ -1,38 +1,63 @@
-/* auth screens */
+/* ── Base ──────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #111;
+  transition: background 0.2s, color 0.2s;
+}
 
 .auth-page {
   min-height: 100vh;
-  background: #f5f5f5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem 1rem 2rem;
+  padding: 1.5rem 1rem 3rem;
 }
 
-.auth-screen-label {
-  font-size: 0.75rem;
-  color: #9ca3af;
-  text-transform: none;
-  margin-bottom: 1rem;
-  align-self: flex-start;
-  max-width: 28rem;
-  width: 100%;
-}
+/* ── Cards ─────────────────────────────────────────────────── */
 
 .auth-card {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  max-width: 28rem;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  max-width: 420px;
   width: 100%;
   padding: 2rem 1.75rem;
   margin: auto;
 }
 
+.dashboard-container {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  max-width: 420px;
+  width: 100%;
+  padding: 2rem 1.75rem 2.5rem;
+}
+
+/* ── Screen labels (dev helper) ─────────────────────────────── */
+
+.auth-screen-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+  align-self: flex-start;
+  max-width: 420px;
+  width: 100%;
+}
+
+/* ── Navigation back button ──────────────────────────────────── */
+
 .auth-back {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   background: none;
   border: none;
   padding: 0;
@@ -42,181 +67,29 @@
   cursor: pointer;
 }
 
-.auth-back:hover {
-  color: #111;
-}
+.auth-back:hover { color: #111; }
+
+/* ── Typography ─────────────────────────────────────────────── */
 
 .auth-title {
   font-size: 1.75rem;
   font-weight: 700;
   color: #111;
   margin: 0 0 1.5rem;
-}
-
-.user-avatar{
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
-  background-color: #e0e0e0;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.user-avatar-placeholder{
-  font-size: 18px;
-  color: white;
-}
-
-.analytics-section h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.analytics-section p {
-  margin: 5px 0;
-  font-size: 16px;
-}
-
-.preferences-section {
-  margin-top: 30px;
-  text-align: left;
-}
-
-.preference-item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  align-items: center;
-}
-
-.preference-item span {
-  font-size: 16px;
-}
-
-.preference-item input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-}
-
-.actions {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.auth-btn-primary {
-  background-color: #374151;
-  color: white;
-  padding: 14px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.auth-btn-primary:hover {
-  background-color: #1f2937;
-}
-
-.auth-btn-primary {
-  margin-top: 10px;
-}
-
-.auth-btn-primary:last-child {
-  margin-bottom: 20px;
-}
-
-.auth-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  padding: 1.75rem;
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
-}
-
-.auth-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  background: none;
-  border: none;
-  padding: 0;
-  margin-bottom: 1.25rem;
-  font-size: 0.9rem;
-  color: #374151;
-  cursor: pointer;
-}
-
-.auth-back:hover {
-  color: #111;
-}
-
-.auth-title {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 20px;
   text-align: center;
 }
 
-/* Edit Profile Fields */
-.auth-field {
-  margin-bottom: 15px;
-}
+/* ── Logo ───────────────────────────────────────────────────── */
 
-.auth-field input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.auth-btn-primary {
-  background-color: #374151;
-  color: white;
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.auth-btn-primary:hover {
-  background-color: #1f2937;
-}
-
-.auth-btn-danger {
-  background-color: #dc2626;
-  color: white;
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.auth-btn-danger:hover {
-  background-color: #b91c1c;
-}
 .auth-logo {
-  width: 300px;
-  height: 250px;
+  width: 220px;
+  height: 180px;
   display: block;
-  margin: 0 auto -1rem;
+  margin: 0 auto 1rem;
   object-fit: contain;
 }
+
+/* ── Form fields ────────────────────────────────────────────── */
 
 .auth-field {
   margin-bottom: 1.25rem;
@@ -227,19 +100,19 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #374151;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .auth-field input[type="text"],
 .auth-field input[type="email"],
 .auth-field input[type="password"] {
   width: 100%;
-  box-sizing: border-box;
   padding: 0.65rem 0.75rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 1rem;
   background: #fff;
+  color: #111;
 }
 
 .auth-field input:focus {
@@ -262,6 +135,8 @@
   accent-color: #374151;
 }
 
+/* ── Buttons ────────────────────────────────────────────────── */
+
 .auth-btn-primary {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -272,11 +147,41 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  margin-top: 10px;
 }
 
-.auth-btn-primary:hover {
-  background: #1f2937;
+.auth-btn-primary:hover { background: #1f2937; }
+
+.auth-btn-secondary {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: none;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 8px;
 }
+
+.auth-btn-secondary:hover {
+  border-color: #374151;
+  background: #f9fafb;
+}
+
+.auth-btn-danger {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.auth-btn-danger:hover { background: #b91c1c; }
 
 .auth-link-row {
   text-align: center;
@@ -295,256 +200,9 @@
   font-size: inherit;
 }
 
-.auth-link-row button.link:hover {
-  color: #1d4ed8;
-}
+.auth-link-row button.link:hover { color: #1d4ed8; }
 
-.auth-forgot-message {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111;
-  margin: 1rem 0 0;
-}
-
-.week-day-link{
-  background: #444343;
-  color: white;
-  margin-bottom: 2px;
-  margin-top: 15px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 15px;
-}
-.day-task-title{
-  margin-top: 32px;
-  margin-bottom: 28px;
-}
-
-.day-task-box{
-  border: 2px solid #333;
-  border-radius: 16px;
-  min-height: 400px;
-  padding: 20px;
-}
-
-.add-task-btn{
-  width: 100%;
-  margin-top: 20px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 7px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.task-title{
-  text-align: center;
-  margin: 20px 0 30px;
-  font-size: 48px;
-  font-weight:700;
-}
-
-.task-label{
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 8px;
-  font-size: 18px;
-}
-
-.task-input{
-  width: 100%;
-  height: 30px;
-  border-radius: 15px;
-  background: white;
-  border: 1px solid #d1d5db;
-  font-size: 16px;
-  padding-left: 10px;
-}
-
-.task-sub{
-  margin-top:20px;
-  margin-bottom:8px;
-  font-size: 16px;
-}
-
-.task-slider{
-  width: 100%;
-  margin: 0;
-  accent-color: #333;
-}
-
-.task-numbers{
-  display: flex;
-  justify-content: space-between;
-  margin: 6px 10px 15px;
-  text-align: center;
-}
-
-.task-slider-min{
-  width: 100%;
-  margin: 0 0px;
-  accent-color: #333;
-}
-
-.task-slider-hr{
-  width: 100%;
-  margin: 0 0px;
-  accent-color: #333;
-}
-
-.task-numbers-min{
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  margin: 6px -10px 15px;
-  text-align: center;
-}
-
-.task-numbers-hr{
-  display: flex;
-  justify-content: space-between;
-  margin: 6px 10px 15px;
-  text-align: center;
-}
-
-.star-row{
-  margin: 10px 0px 20px;
-}
-
-.star{
-  font-size: 50px;
-  color: #d3d3d3;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.star:hover{
-  color: #333;
-}
-
-.star.active{
-  color: #333;
-}
-
-.priority-row{
-  display:flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom:20px;
-}
-
-.priority-btn{
-  background: #4a4a4a;
-  color: white;
-  cursor: pointer;
-  padding: 10px 40px;
-  border-radius: 10px;
-}
-
-.priority-btn:hover {
-  background: black;
-}
-
-.active-priority{
-  background: black;
-}
-
-.save-btn{
-  width:100%;
-  margin-top: 24px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 0;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.delete-btn{
-  width:100%;
-  margin-top: 24px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 0;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.day-task-item{
-  cursor: pointer;
-  margin-bottom:10px;
-
-}
-
-.day-task-item:hoover{
-  text-decoration:overline;
-}
-
-.tasks-today-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.today-add-btn {
-  background: none;
-  border: none;
-  font-size: 36px;
-  font-weight: bold;
-  cursor: pointer;
-  color: black;
-}
-
-.tasks-for-today-box {
-  min-height: 320px;
-}
-
-.today-task-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-  font-size: 28px;
-  cursor: pointer;
-}
-
-.today-task-row input {
-  width: 20px;
-  height: 20px;
-}
-
-.completed-task-row span {
-  color: #b5b5b5;
-  text-decoration: line-through;
-}
-
-.delete-confirm-text {
-  text-align: center;
-  font-size: 28px;
-  margin-top: 60px;
-  margin-bottom: 20px;
-}
-
-.delete-task-name {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 40px;
-}
-
-.dashboard-container {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  max-width: 28rem;
-  width: 100%;
-  padding: 2rem 1.75rem 3rem;
-}
+/* ── Dashboard ──────────────────────────────────────────────── */
 
 .dashboard-top-row {
   display: flex;
@@ -562,15 +220,13 @@
   cursor: pointer;
 }
 
-.dashboard-profile-link:hover {
-  text-decoration: underline;
-}
+.dashboard-profile-link:hover { text-decoration: underline; }
 
 .dashboard-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #111;
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
 }
 
 .current-day {
@@ -579,31 +235,59 @@
   margin: 0 0 2rem;
 }
 
+.tasks-section {
+  margin-bottom: 2rem;
+}
+
+.upcoming-section {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
 .dashboard-section-title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #111;
   margin: 0;
 }
 
-.tasks-section {
-  margin-bottom: 2.25rem;
+.dashboard-section-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8rem;
+  color: #6b7280;
+  cursor: pointer;
 }
 
-.upcoming-section {
-  margin-bottom: 1rem;
+.dashboard-section-link:hover { text-decoration: underline; }
+
+.dashboard-task {
+  font-size: 0.95rem;
+  color: #374151;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  margin: 0;
+}
+
+.dashboard-task:last-child { border-bottom: none; }
+
+.dashboard-task-day {
+  font-weight: 600;
+  color: #374151;
 }
 
 .dashboard-empty-text {
-  font-size: 1rem;
-  color: #111;
-  margin-top: 1rem;
-}
-
-.dashboard-coming-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+  font-style: italic;
 }
 
 .dashboard-week-link {
@@ -613,19 +297,452 @@
   font-size: 0.85rem;
   color: #6b7280;
   cursor: pointer;
+  margin-top: 1rem;
+  display: inline-block;
 }
 
-.dashboard-week-link:hover {
+.dashboard-week-link:hover { text-decoration: underline; }
+
+/* ── Week View ──────────────────────────────────────────────── */
+
+.week-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+}
+
+.week-day-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.week-day-group:last-child { border-bottom: none; }
+
+.week-day-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+}
+
+.week-day-link:hover { color: #111; text-decoration: underline; }
+
+.week-empty {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* ── Day Task List ──────────────────────────────────────────── */
+
+.day-task-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.day-task-box {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  min-height: 300px;
+  padding: 1rem;
+}
+
+.day-empty {
+  color: #9ca3af;
+  font-size: 0.95rem;
+  font-style: italic;
+  text-align: center;
+  padding-top: 1rem;
+}
+
+.day-task-item {
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.day-task-item:last-child { border-bottom: none; }
+
+.day-task-item:hover {
+  color: #111;
   text-decoration: underline;
 }
 
+.add-task-btn {
+  width: 100%;
+  margin-top: 1rem;
+  background: #374151;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.add-task-btn:hover { background: #1f2937; }
+
+/* ── Tasks for Today ────────────────────────────────────────── */
+
+.tasks-today-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.today-add-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #374151;
+  line-height: 1;
+}
+
+.today-add-btn:hover { color: #111; }
+
+.tasks-for-today-box {
+  min-height: 260px;
+}
+
+.today-task-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.today-task-row:last-child { border-bottom: none; }
+
+.today-task-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #374151;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.completed-task-row span {
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+/* ── Add / Edit Task ────────────────────────────────────────── */
+
+.task-title {
+  text-align: center;
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.task-label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.task-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: #111;
+}
+
+.task-input:focus {
+  outline: none;
+  border-color: #6b7280;
+}
+
+.task-sub {
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.task-slider-hr,
+.task-slider-min,
+.task-slider {
+  width: 100%;
+  accent-color: #374151;
+  margin: 0;
+}
+
+.task-numbers-hr,
+.task-numbers-min,
+.task-numbers {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 2px 12px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.slider-value {
+  display: inline-block;
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 1px 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Star rating */
+
+.star-row {
+  display: flex;
+  gap: 4px;
+  margin: 0.5rem 0 1rem;
+}
+
+.star {
+  font-size: 2rem;
+  color: #d1d5db;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.star:hover { color: #374151; }
+.star.active { color: #374151; }
+
+/* Priority buttons */
+
+.priority-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.priority-btn {
+  flex: 1;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+  cursor: pointer;
+  padding: 0.55rem 0.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.priority-btn:hover {
+  border-color: #374151;
+  background: #e5e7eb;
+}
+
+.active-priority {
+  background: #374151;
+  color: #fff;
+  border-color: #374151;
+}
+
+/* Save / Delete action buttons */
+
+.save-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: #374151;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-btn:hover { background: #1f2937; }
+
+.delete-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.delete-btn:hover { background: #b91c1c; }
+
+/* ── Task Completed ─────────────────────────────────────────── */
+
+.task-completed-name {
+  text-align: center;
+  font-size: 1rem;
+  color: #6b7280;
+  margin: -0.5rem 0 1.25rem;
+}
+
+/* ── Delete Confirm ─────────────────────────────────────────── */
+
+.delete-confirm-text {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #374151;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.delete-task-name {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #111;
+}
+
+/* ── Profile ────────────────────────────────────────────────── */
+
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.user-avatar-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.user-avatar-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-avatar-info { flex: 1; }
+
+.user-avatar-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 2px;
+}
+
+.user-avatar-email {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Profile section cards */
+
+.profile-section {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+
+.profile-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  margin: 0 0 0.75rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.analytics-stat {
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+}
+
+.analytics-stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.1;
+}
+
+.analytics-stat-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+/* Preference toggles */
+
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.preference-item:last-child { border-bottom: none; }
+
+.preference-item span {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.preference-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #374151;
+  cursor: pointer;
+}
+
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+/* ── Edit Profile ───────────────────────────────────────────── */
+
 .edit-profile-container {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  padding: 1.75rem;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 2rem 1.75rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   margin: auto;
 }
 
@@ -634,67 +751,439 @@
   border: none;
   color: #374151;
   cursor: pointer;
-  font-size: 16px;
-  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
+.back-button:hover { color: #111; }
+
 .edit-profile-title {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #111;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
 .edit-profile-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0;
 }
 
 .edit-profile-label {
-  font-size: 16px;
-  color: #6b7280;
-  margin-bottom: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.4rem;
+  display: block;
 }
 
 .edit-profile-input {
-  padding: 12px;
-  font-size: 16px;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
+  background: #fff;
+  color: #111;
+}
+
+.edit-profile-input:focus {
+  outline: none;
+  border-color: #6b7280;
 }
 
 .save-button {
   background-color: #374151;
   color: white;
   width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.save-button:hover {
-  background-color: #1f2937;
-}
-
-.delete-account-button {
-  background-color: #f44336;
-  color: white;
-  padding: 8px 15px;
-  font-size: 14px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  width: auto;
-  margin-top: 15px;
-  align-self: center; 
+  margin-top: 0.5rem;
 }
 
-.delete-account-button:hover {
-  background-color: #d32f2f;
+.save-button:hover { background-color: #1f2937; }
+
+.delete-account-button {
+  background-color: #dc2626;
+  color: white;
+  padding: 0.65rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.75rem;
 }
+
+.delete-account-button:hover { background-color: #b91c1c; }
+
+/* ── Onboarding ─────────────────────────────────────────────── */
+
+.onboarding-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.onboarding-item-row input { flex: 1; }
+
+.onboarding-remove-btn {
+  background: none;
+  border: 1px solid #d1d5db;
+  color: #9ca3af;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboarding-remove-btn:hover {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+/* ── Forgot password ────────────────────────────────────────── */
+
+.auth-forgot-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #374151;
+  margin: 1rem 0 0;
+}
+
+/* ── Dark Mode ──────────────────────────────────────────────── */
+
+body.dark-mode {
+  background: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .auth-card,
+body.dark-mode .dashboard-container,
+body.dark-mode .edit-profile-container,
+body.dark-mode .profile-section,
+body.dark-mode .analytics-stat {
+  background: #1f2937;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  color: #f9fafb;
+}
+
+body.dark-mode .auth-title,
+body.dark-mode .dashboard-title,
+body.dark-mode .week-title,
+body.dark-mode .day-task-title,
+body.dark-mode .task-title,
+body.dark-mode .edit-profile-title,
+body.dark-mode .user-avatar-name,
+body.dark-mode .delete-task-name {
+  color: #f9fafb;
+}
+
+body.dark-mode .auth-back,
+body.dark-mode .back-button {
+  color: #d1d5db;
+}
+
+body.dark-mode .auth-back:hover,
+body.dark-mode .back-button:hover {
+  color: #fff;
+}
+
+body.dark-mode .auth-field input[type="text"],
+body.dark-mode .auth-field input[type="email"],
+body.dark-mode .auth-field input[type="password"],
+body.dark-mode .task-input,
+body.dark-mode .edit-profile-input,
+body.dark-mode .onboarding-item-row input {
+  background: #374151;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+body.dark-mode .auth-field label,
+body.dark-mode .task-label,
+body.dark-mode .edit-profile-label {
+  color: #d1d5db;
+}
+
+body.dark-mode .preference-item span,
+body.dark-mode .day-task-item,
+body.dark-mode .dashboard-task,
+body.dark-mode .current-day,
+body.dark-mode .week-day-link {
+  color: #d1d5db;
+}
+
+body.dark-mode .preference-item,
+body.dark-mode .day-task-item,
+body.dark-mode .today-task-row,
+body.dark-mode .dashboard-task,
+body.dark-mode .week-day-group {
+  border-color: #374151;
+}
+
+body.dark-mode .day-task-box {
+  border-color: #374151;
+}
+
+body.dark-mode .priority-btn {
+  background: #374151;
+  color: #d1d5db;
+  border-color: #4b5563;
+}
+
+body.dark-mode .priority-btn:hover,
+body.dark-mode .active-priority {
+  background: #6b7280;
+  color: #fff;
+  border-color: #6b7280;
+}
+
+body.dark-mode .profile-section-title,
+body.dark-mode .dashboard-empty-text,
+body.dark-mode .week-empty,
+body.dark-mode .day-empty,
+body.dark-mode .user-avatar-email,
+body.dark-mode .analytics-stat-label,
+body.dark-mode .task-sub {
+  color: #6b7280;
+}
+
+body.dark-mode .analytics-stat-value {
+  color: #f9fafb;
+}
+
+body.dark-mode .dashboard-section-title,
+body.dark-mode .user-avatar-name {
+  color: #f9fafb;
+}
+
+body.dark-mode .today-task-row span {
+  color: #d1d5db;
+}
+
+body.dark-mode .completed-task-row span {
+  color: #4b5563;
+}
+
+body.dark-mode .delete-confirm-text {
+  color: #d1d5db;
+}
+
+body.dark-mode .star { color: #4b5563; }
+body.dark-mode .star:hover,
+body.dark-mode .star.active { color: #9ca3af; }
+
+body.dark-mode .slider-value {
+  background: #374151;
+  color: #d1d5db;
+}
+
+body.dark-mode .auth-btn-secondary {
+  border-color: #4b5563;
+  color: #d1d5db;
+}
+
+body.dark-mode .auth-btn-secondary:hover {
+  border-color: #6b7280;
+  background: #374151;
+}
+
+/* ── Day Picker (AddTask) ────────────────────────────────────── */
+
+.day-picker {
+  margin-bottom: 0.5rem;
+}
+
+.day-picker-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.day-picker-btn {
+  flex: 1;
+  min-width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+  cursor: pointer;
+  position: relative;
+  gap: 2px;
+}
+
+.day-picker-btn:hover {
+  border-color: #9ca3af;
+  background: #f3f4f6;
+}
+
+.day-picker-selected {
+  background: #374151;
+  border-color: #374151;
+  color: #fff;
+}
+
+.day-picker-selected .day-picker-short,
+.day-picker-selected .day-picker-num {
+  color: #fff;
+}
+
+.day-picker-today {
+  border-color: #374151;
+}
+
+.day-picker-short {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.day-picker-num {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1;
+}
+
+.day-picker-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #374151;
+  margin-top: 1px;
+}
+
+.day-picker-selected .day-picker-dot {
+  background: #fff;
+}
+
+/* ── Week View enhancements ──────────────────────────────────── */
+
+.week-day-today {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.week-day-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.week-today-badge {
+  display: inline-block;
+  background: #374151;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 6px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.week-day-date {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+/* ── Priority badges (DayTaskList) ───────────────────────────── */
+
+.task-priority-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+.priority-low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.priority-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.priority-high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ── Dark mode additions ─────────────────────────────────────── */
+
+body.dark-mode .day-picker-btn {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+body.dark-mode .day-picker-btn:hover {
+  border-color: #6b7280;
+  background: #4b5563;
+}
+
+body.dark-mode .day-picker-selected {
+  background: #9ca3af;
+  border-color: #9ca3af;
+}
+
+body.dark-mode .day-picker-short {
+  color: #9ca3af;
+}
+
+body.dark-mode .day-picker-num {
+  color: #f9fafb;
+}
+
+body.dark-mode .day-picker-today {
+  border-color: #9ca3af;
+}
+
+body.dark-mode .week-day-today {
+  background: #374151;
+}
+
+body.dark-mode .week-today-badge {
+  background: #6b7280;
+}
+
+body.dark-mode .week-day-date {
+  color: #6b7280;
+}
+
