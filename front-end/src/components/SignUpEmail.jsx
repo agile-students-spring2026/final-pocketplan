@@ -6,7 +6,7 @@ function SignUpEmail({ onNext, onGoLogin }) {
       <p className="auth-screen-label">Sign Up - Email</p>
       <div className="auth-card">
         <h1 className="auth-title">Sign up</h1>
-        <img src="/logo192.png" alt="PocketPlan logo" className="auth-logo" />
+        <img src="/logo192.png" alt="PocketPlan logo" className="auth-logo"/>
         <div className="auth-field">
           <label htmlFor="signup-email">Email</label>
           <input id="signup-email" type="email" autoComplete="email" />
