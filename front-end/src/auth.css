@@ -211,10 +211,10 @@
   background-color: #b91c1c;
 }
 .auth-logo {
-  width: 80px;
-  height: 80px;
+  width: 300px;
+  height: 250px;
   display: block;
-  margin: 0 auto 1.75rem;
+  margin: 0 auto -1rem;
   object-fit: contain;
 }
 
@@ -368,6 +368,19 @@
   margin-top:20px;
   margin-bottom:8px;
   font-size: 16px;
+}
+
+.task-slider{
+  width: 100%;
+  margin: 0;
+  accent-color: #333;
+}
+
+.task-numbers{
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 10px 15px;
+  text-align: center;
 }
 
 .task-slider-min{
