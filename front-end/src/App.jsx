@@ -82,8 +82,12 @@ function App() {
         <Dashboard
           tasks={tasks}
           currentDay={currentDay}
-          onProfileClick={handleProfileClick} 
-          onWeekClick={handleWeekClick} 
+          onProfileClick={handleProfileClick}
+          onWeekClick={handleWeekClick}
+          onAddTask={() => {
+            setSelectedDay("Today");
+            setScreen(SCREENS.ADD);
+          }}
         />
       )}
       {screen === SCREENS.PROFILE && <Profile profile={profile} onBack={() => setScreen(SCREENS.DASHBOARD)} onEditProfile={() => setScreen(SCREENS.EDIT_PROFILE)} onLogOut={handleLogOut} />}
