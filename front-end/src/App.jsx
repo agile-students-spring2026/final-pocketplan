@@ -16,43 +16,70 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Onboarding from './components/Onboarding';
 import EditProfile from './components/EditProfile';
+import { getTodayISO, getCurrentWeekDays, formatDisplayDate } from './utils/dates';
+
 const SCREENS = {
   SIGNUP_EMAIL: 'signup-email',
   LOGIN: 'login',
   SIGNUP_PASSWORD: 'signup-password',
   FORGOT: 'forgot',
-  WEEK: 'week',
-  DAY: 'day',
-  ADD: "add",
-  EDIT: "edit",
-  TODAY: "today",
-  COMPLETED: "completed",
-  DAY_EDIT_VIEW: "day-edit-view",
-  DELETE_CONFIRM: "delete-confirm",
+  ONBOARDING: 'onboarding',
   DASHBOARD: 'dashboard',
   PROFILE: 'profile',
-  WEEKVIEW: 'weekview',
-  ONBOARDING: 'onboarding',
+  EDIT_PROFILE: 'edit-profile',
+  WEEK: 'week',
+  DAY: 'day',
+  TODAY: 'today',
+  ADD: 'add',
+  EDIT: 'edit',
+  COMPLETED: 'completed',
+  DAY_EDIT_VIEW: 'day-edit-view',
+  DELETE_CONFIRM: 'delete-confirm',
 };
 
 function App() {
+  const todayISO = getTodayISO();
+  const weekDays = getCurrentWeekDays();
+
   const [screen, setScreen] = useState(SCREENS.SIGNUP_EMAIL);
-  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedDay, setSelectedDay] = useState(todayISO);
+  const [editTaskSource, setEditTaskSource] = useState(SCREENS.DAY_EDIT_VIEW);
+  const [isNewUser, setIsNewUser] = useState(true);
   const [profile, setProfile] = useState({
     name: 'John Doe',
     email: 'johndoe@example.com',
   });
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [completedTask, setCompletedTask] = useState(null);
+
+  const currentDayLabel = `Today, ${formatDisplayDate(todayISO)}`;
+
   const handleLogOut = () => { setScreen(SCREENS.LOGIN); };
   const handleDeleteAccount = () => { setScreen(SCREENS.SIGNUP_EMAIL); };
-  const handleSaveProfile = (updatedProfile) => { setProfile(updatedProfile); setScreen(SCREENS.PROFILE); }
-  const[tasks, setTasks] = useState([]);
-  const[selectedTask, setSelectedTask] = useState(null);
-  const [completedTask, setCompletedTask] = useState(null);
-  const currentDate = new Date();
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const currentDay = `Today, ${daysOfWeek[currentDate.getDay()]}`;
-  const handleProfileClick = () => { setScreen(SCREENS.PROFILE); };
-  const handleWeekClick = () => { setScreen(SCREENS.WEEK); };
+  const handleSaveProfile = (updatedProfile) => {
+    setProfile(updatedProfile);
+    setScreen(SCREENS.PROFILE);
+  };
+
+  const openEditTask = (task, source) => {
+    setSelectedTask(task);
+    setEditTaskSource(source);
+    setScreen(SCREENS.EDIT);
+  };
+
+  const afterEditSave = (updatedTask) => {
+    setTasks(tasks.map((t) => (t === selectedTask ? updatedTask : t)));
+    setScreen(editTaskSource);
+  };
+
+  const afterDeleteConfirm = () => {
+    setTasks(tasks.filter((t) => t !== selectedTask));
+    setScreen(editTaskSource);
+  };
+
+  const todayTasks = tasks.filter((t) => t.dueDate === todayISO);
+
   return (
     <div className="auth-page">
       {screen === SCREENS.SIGNUP_EMAIL && (
@@ -64,7 +91,14 @@ function App() {
       {screen === SCREENS.LOGIN && (
         <LoginScreen
           onBack={() => setScreen(SCREENS.SIGNUP_EMAIL)}
-          onLogin={() => setScreen(SCREENS.ONBOARDING)}
+          onLogin={() => {
+            if (isNewUser) {
+              setIsNewUser(false);
+              setScreen(SCREENS.ONBOARDING);
+            } else {
+              setScreen(SCREENS.DASHBOARD);
+            }
+          }}
           onForgotPassword={() => setScreen(SCREENS.FORGOT)}
         />
       )}
@@ -77,28 +111,52 @@ function App() {
       {screen === SCREENS.FORGOT && (
         <ForgotPassword onBack={() => setScreen(SCREENS.LOGIN)} />
       )}
-      {screen === SCREENS.ONBOARDING && <Onboarding onFinish={() => setScreen(SCREENS.DASHBOARD)} />}
+      {screen === SCREENS.ONBOARDING && (
+        <Onboarding
+          onBack={() => setScreen(SCREENS.LOGIN)}
+          onFinish={() => setScreen(SCREENS.DASHBOARD)}
+        />
+      )}
       {screen === SCREENS.DASHBOARD && (
         <Dashboard
           tasks={tasks}
-          currentDay={currentDay}
-          onProfileClick={handleProfileClick}
-          onWeekClick={handleWeekClick}
-          onAddTask={() => {
-            setSelectedDay("Today");
-            setScreen(SCREENS.ADD);
+          todayISO={todayISO}
+          weekDays={weekDays}
+          currentDayLabel={currentDayLabel}
+          onProfileClick={() => setScreen(SCREENS.PROFILE)}
+          onWeekClick={() => setScreen(SCREENS.WEEK)}
+          onTodayClick={() => {
+            setSelectedDay(todayISO);
+            setScreen(SCREENS.TODAY);
           }}
         />
       )}
-      {screen === SCREENS.PROFILE && <Profile profile={profile} onBack={() => setScreen(SCREENS.DASHBOARD)} onEditProfile={() => setScreen(SCREENS.EDIT_PROFILE)} onLogOut={handleLogOut} />}
-      {screen === SCREENS.EDIT_PROFILE && <EditProfile profile={profile} onBack={() => setScreen(SCREENS.PROFILE)} onSaveProfile={handleSaveProfile} onDeleteAccount={handleDeleteAccount} />}
-      {screen === SCREENS.WEEK &&(
-        <WeekView
+      {screen === SCREENS.PROFILE && (
+        <Profile
+          profile={profile}
           tasks={tasks}
           onBack={() => setScreen(SCREENS.DASHBOARD)}
-          onSelectDay={(day) => {
-            setSelectedDay(day);
-            if (day === "Today") {
+          onEditProfile={() => setScreen(SCREENS.EDIT_PROFILE)}
+          onLogOut={handleLogOut}
+        />
+      )}
+      {screen === SCREENS.EDIT_PROFILE && (
+        <EditProfile
+          profile={profile}
+          onBack={() => setScreen(SCREENS.PROFILE)}
+          onSaveProfile={handleSaveProfile}
+          onDeleteAccount={handleDeleteAccount}
+        />
+      )}
+      {screen === SCREENS.WEEK && (
+        <WeekView
+          tasks={tasks}
+          weekDays={weekDays}
+          todayISO={todayISO}
+          onBack={() => setScreen(SCREENS.DASHBOARD)}
+          onSelectDay={(isoDate) => {
+            setSelectedDay(isoDate);
+            if (isoDate === todayISO) {
               setScreen(SCREENS.TODAY);
             } else {
               setScreen(SCREENS.DAY);
@@ -110,33 +168,29 @@ function App() {
         <DayTaskList
           day={selectedDay}
           tasks={tasks}
-          onBack={()=>setScreen(SCREENS.WEEK)}
+          onBack={() => setScreen(SCREENS.WEEK)}
           onAddTask={() => setScreen(SCREENS.ADD)}
-          onEditTask={(task) => {
-            setSelectedTask(task);
-            setScreen(SCREENS.EDIT);
-          }}
+          onEditTask={(task) => openEditTask(task, SCREENS.DAY)}
         />
       )}
       {screen === SCREENS.TODAY && (
         <TasksForToday
-          tasks={tasks.filter((task) => task.day === "Today")}
+          tasks={todayTasks}
           onBack={() => setScreen(SCREENS.WEEK)}
           onAddTask={() => setScreen(SCREENS.ADD)}
           onOpenEditView={() => setScreen(SCREENS.DAY_EDIT_VIEW)}
           onToggleTask={(taskToToggle) => {
             if (!taskToToggle.completed) {
-              const updatedTasks = tasks.map((task) =>
-                task === taskToToggle ? { ...task, completed: true } : task
+              const updated = tasks.map((t) =>
+                t === taskToToggle ? { ...t, completed: true } : t
               );
-              setTasks(updatedTasks);
+              setTasks(updated);
               setCompletedTask({ ...taskToToggle, completed: true });
               setScreen(SCREENS.COMPLETED);
             } else {
-              const updatedTasks = tasks.map((task) =>
-                task === taskToToggle ? { ...task, completed: false } : task
-              );
-              setTasks(updatedTasks);
+              setTasks(tasks.map((t) =>
+                t === taskToToggle ? { ...t, completed: false } : t
+              ));
             }
           }}
         />
@@ -150,51 +204,40 @@ function App() {
       )}
       {screen === SCREENS.DAY_EDIT_VIEW && (
         <DayEditView
-          tasks={tasks.filter((task) => task.day === "Today")}
+          tasks={todayTasks}
           onBack={() => setScreen(SCREENS.TODAY)}
-          onSelectTask={(task) => {
-            setSelectedTask(task);
-            setScreen(SCREENS.EDIT);
-          }}
+          onSelectTask={(task) => openEditTask(task, SCREENS.DAY_EDIT_VIEW)}
         />
       )}
       {screen === SCREENS.ADD && (
-        <AddTask 
-        onBack={() => {
-          if (selectedDay === "Today") {
-            setScreen(SCREENS.TODAY);
-          } else {
-            setScreen(SCREENS.DAY);
-          }
-        }}
-        onSaveTask={(newTask) => {
-          const taskWithday = {
-            ...newTask,
-            day: selectedDay,
-            completed: false,
-          };
-          setTasks([...tasks, taskWithday]);
-          if (selectedDay === "Today") {
-            setScreen(SCREENS.TODAY);
-          } else {
-            setScreen(SCREENS.DAY);
-          }
-        }}
+        <AddTask
+          weekDays={weekDays}
+          initialDate={selectedDay}
+          onBack={() => {
+            if (selectedDay === todayISO) {
+              setScreen(SCREENS.TODAY);
+            } else {
+              setScreen(SCREENS.DAY);
+            }
+          }}
+          onSaveTask={(newTask) => {
+            setTasks([...tasks, { ...newTask, completed: false }]);
+            if (newTask.dueDate === todayISO) {
+              setSelectedDay(todayISO);
+              setScreen(SCREENS.TODAY);
+            } else {
+              setSelectedDay(newTask.dueDate);
+              setScreen(SCREENS.DAY);
+            }
+          }}
         />
       )}
-      {screen === SCREENS.EDIT &&(
-        <EditTask 
-          onBack={() => setScreen(SCREENS.DAY_EDIT_VIEW)}
+      {screen === SCREENS.EDIT && (
+        <EditTask
+          onBack={() => setScreen(editTaskSource)}
           task={selectedTask}
-          onSaveTask={(updatedTask) =>{
-            const updatedTasks = tasks.map((task) =>
-              task === selectedTask ? updatedTask : task);
-            setTasks(updatedTasks);
-            setScreen(SCREENS.DAY_EDIT_VIEW);
-          }}
-          onDeleteTask={() => {
-            setScreen(SCREENS.DELETE_CONFIRM);
-          }}
+          onSaveTask={afterEditSave}
+          onDeleteTask={() => setScreen(SCREENS.DELETE_CONFIRM)}
         />
       )}
       {screen === SCREENS.DELETE_CONFIRM && (
@@ -202,18 +245,11 @@ function App() {
           task={selectedTask}
           onBack={() => setScreen(SCREENS.EDIT)}
           onCancel={() => setScreen(SCREENS.EDIT)}
-          onConfirmDelete={() => {
-            const updatedTasks = tasks.filter(
-              (task) => task !== selectedTask
-            );
-            setTasks(updatedTasks);
-            setScreen(SCREENS.DAY_EDIT_VIEW);
-          }}
+          onConfirmDelete={afterDeleteConfirm}
         />
       )}
     </div>
   );
 }
-
 
 export default App;
