@@ -1,6 +1,6 @@
 import React from "react";
 
-function Dashboard({ currentDay, tasks, onProfileClick, onWeekClick }) {
+function Dashboard({ currentDay, tasks, onProfileClick, onWeekClick, onAddTask }) {
   const todayTasks = tasks.filter((task) => task.day === "Today");
   const upcomingTasks = tasks.filter((task) => task.day === "Upcoming");
 
@@ -42,6 +42,7 @@ function Dashboard({ currentDay, tasks, onProfileClick, onWeekClick }) {
         )}
       </div>
 
+      <button className="auth-btn-primary" onClick={onAddTask}>Add Task</button>
       <button className="dashboard-week-link" onClick={onWeekClick}>Week View →</button>
     </div>
   );
