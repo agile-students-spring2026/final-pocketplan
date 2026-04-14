@@ -26,24 +26,83 @@ To contribute to this project, see **[CONTRIBUTING.md](./CONTRIBUTING.md)**.
 
 ## Building and Testing
 
-### Front-end (Sprint 1)
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm (bundled with Node.js)
+
+---
+
+### Back-end (Express server)
+
+The Express server lives in `back-end/`.
+
+#### Environment variables
+
+Copy the example file and fill in your own values (never commit real secrets):
+
+```bash
+cp back-end/.env.example back-end/.env
+```
+
+| Variable | Description                                          |
+|----------|------------------------------------------------------|
+| `PORT`   | Port the Express server listens on (default: `3000`) |
+
+#### Install dependencies
+
+```bash
+cd back-end
+npm install
+```
+
+#### Run the server
+
+| Command       | Description                                                   |
+|---------------|---------------------------------------------------------------|
+| `npm start`   | Production mode — `node server.js`                            |
+| `npm run dev` | Development mode — auto-restarts on file changes via nodemon  |
+
+The server starts at `http://localhost:3000` (or the `PORT` you set).
+
+#### Run tests
+
+```bash
+npm test
+```
+
+#### Run tests with coverage report
+
+```bash
+npm run test:coverage
+```
+
+Coverage output is printed to the terminal (text) and written to `coverage/lcov.info`.
+
+---
+
+### Front-end (React client)
 
 The React front-end lives in `front-end/` (create-react-app).
 
-1. **Prerequisites:** [Node.js](https://nodejs.org/) and npm.
-2. **Install and run:**
-   ```bash
-   cd front-end
-   npm install
-   npm start
-   ```
-   The app opens in the browser (default [http://localhost:3000](http://localhost:3000)).
-3. **Production build:**
-   ```bash
-   cd front-end
-   npm run build
-   ```
-   Output is in `front-end/build`.
+#### Install and run
+
+```bash
+cd front-end
+npm install
+npm start
+```
+
+The app opens in the browser at [http://localhost:3000](http://localhost:3000).
+
+#### Production build
+
+```bash
+cd front-end
+npm run build
+```
+
+Output is placed in `front-end/build/`. The Express server serves this folder as static files when running in production.
 
 ## comment check
 ## Additional Documentation
