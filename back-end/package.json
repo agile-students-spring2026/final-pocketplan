@@ -19,13 +19,21 @@
   "devDependencies": {
     "c8": "^9.1.0",
     "chai": "^4.4.1",
-    "mocha": "^10.4.0",
+    "mocha": "^11.3.0",
     "nodemon": "^3.1.0",
     "supertest": "^7.0.0"
   },
   "c8": {
-    "reporter": ["text", "lcov"],
-    "include": ["app.js", "routes/**/*.js"],
-    "exclude": ["test/**"]
+    "reporter": [
+      "text",
+      "lcov"
+    ],
+    "include": [
+      "app.js",
+      "routes/**/*.js"
+    ],
+    "exclude": [
+      "test/**"
+    ]
   }
 }

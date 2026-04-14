@@ -85,7 +85,7 @@ function App() {
 
   const todayTasks = tasks.filter((t) => t.dueDate === todayISO);
 
-  const API_BASE = 'http://localhost:3000';
+  const API_BASE = process.env.REACT_APP_API_URL || '';
 
   async function loginUser(email, password) {
     try {
