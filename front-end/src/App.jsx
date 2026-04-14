@@ -52,10 +52,15 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [completedTask, setCompletedTask] = useState(null);
+  const [signupEmail, setSignupEmail] = useState('');
+  const [authMessage, setAuthMessage] = useState('');
 
   const currentDayLabel = `Today, ${formatDisplayDate(todayISO)}`;
 
-  const handleLogOut = () => { setScreen(SCREENS.LOGIN); };
+  const handleLogOut = async () => {
+    await logoutUser();
+    setScreen(SCREENS.LOGIN);
+  };
   const handleDeleteAccount = () => { setScreen(SCREENS.SIGNUP_EMAIL); };
   const handleSaveProfile = (updatedProfile) => {
     setProfile(updatedProfile);
@@ -80,24 +85,119 @@ function App() {
 
   const todayTasks = tasks.filter((t) => t.dueDate === todayISO);
 
+  const API_BASE = 'http://localhost:3000';
+
+  async function loginUser(email, password) {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+
+  async function signupUser(name, email, password) {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+
+  async function forgotPasswordRequest(email) {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+
+  async function logoutUser() {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/logout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+
   return (
     <div className="auth-page">
+      {authMessage && (
+        <p style={{ color: '#166534', fontSize: '0.9rem', marginBottom: '1rem' }}>
+          {authMessage}
+        </p>
+      )}
       {screen === SCREENS.SIGNUP_EMAIL && (
         <SignUpEmail
-          onNext={() => setScreen(SCREENS.SIGNUP_PASSWORD)}
-          onGoLogin={() => setScreen(SCREENS.LOGIN)}
+        onNext={(email) => {
+          setSignupEmail(email);
+          setScreen(SCREENS.SIGNUP_PASSWORD);
+        }}
+        onGoLogin={() => setScreen(SCREENS.LOGIN)}
         />
       )}
       {screen === SCREENS.LOGIN && (
         <LoginScreen
           onBack={() => setScreen(SCREENS.SIGNUP_EMAIL)}
-          onLogin={() => {
-            if (isNewUser) {
-              setIsNewUser(false);
-              setScreen(SCREENS.ONBOARDING);
-            } else {
-              setScreen(SCREENS.DASHBOARD);
+          onLogin={async (email, password) => {
+            const result = await loginUser(email, password);
+
+            if (result.success) {
+              if (result.user) {
+                setProfile({
+                  name: result.user.name,
+                  email: result.user.email,
+                });
+              }
+
+              if (isNewUser) {
+                setIsNewUser(false);
+                setScreen(SCREENS.ONBOARDING);
+              } else {
+                setScreen(SCREENS.DASHBOARD);
+              }
             }
+
+            return result;
           }}
           onForgotPassword={() => setScreen(SCREENS.FORGOT)}
         />
@@ -105,11 +205,30 @@ function App() {
       {screen === SCREENS.SIGNUP_PASSWORD && (
         <SignUpPassword
           onBack={() => setScreen(SCREENS.SIGNUP_EMAIL)}
-          onNext={() => setScreen(SCREENS.LOGIN)}
+          onNext={async ({ name, password }) => {
+            const result = await signupUser(name, signupEmail, password);
+
+            if (result.success) {
+              if (result.user) {
+                setProfile({
+                  name: result.user.name,
+                  email: result.user.email,
+                });
+              }
+
+              setAuthMessage('Sign up successful. Please log in.');
+              setScreen(SCREENS.LOGIN);
+            }
+
+            return result;
+          }}
         />
       )}
       {screen === SCREENS.FORGOT && (
-        <ForgotPassword onBack={() => setScreen(SCREENS.LOGIN)} />
+        <ForgotPassword
+        onBack={() => setScreen(SCREENS.LOGIN)}
+        onSubmitEmail={forgotPasswordRequest}
+        />
       )}
       {screen === SCREENS.ONBOARDING && (
         <Onboarding

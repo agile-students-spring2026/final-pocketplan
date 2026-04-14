@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
 const router = Router();
-let mockUser = null;
 
+// POST /api/auth/signup
 router.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
 
@@ -13,24 +13,18 @@ router.post('/signup', (req, res) => {
     });
   }
 
-  mockUser = {
-    id: 101,
-    name,
-    email,
-    password,
-  };
-
   return res.status(201).json({
     success: true,
     message: 'User signed up successfully',
     user: {
-      id: mockUser.id,
-      name: mockUser.name,
-      email: mockUser.email,
+      id: 101,
+      name,
+      email,
     },
   });
 });
 
+// POST /api/auth/login
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -41,32 +35,19 @@ router.post('/login', (req, res) => {
     });
   }
 
-  if (!mockUser) {
-    return res.status(401).json({
-      success: false,
-      error: 'No account found. Please sign up first.',
-    });
-  }
-
-  if (email !== mockUser.email || password !== mockUser.password) {
-    return res.status(401).json({
-      success: false,
-      error: 'Invalid email or password.',
-    });
-  }
-
   return res.status(200).json({
     success: true,
     message: 'Login successful',
     token: 'mock-jwt-token-12345',
     user: {
-      id: mockUser.id,
-      name: mockUser.name,
-      email: mockUser.email,
+      id: 101,
+      name: 'Coco User',
+      email,
     },
   });
 });
 
+// POST /api/auth/logout
 router.post('/logout', (req, res) => {
   return res.status(200).json({
     success: true,
@@ -74,6 +55,7 @@ router.post('/logout', (req, res) => {
   });
 });
 
+// POST /api/auth/forgot-password
 router.post('/forgot-password', (req, res) => {
   const { email } = req.body;
 
