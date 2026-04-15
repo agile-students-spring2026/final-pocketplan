@@ -1,76 +1,26 @@
-import { Router } from 'express';
+import { expect } from 'chai';
+import request from 'supertest';
+import app from '../app.js';
 
-const router = Router();
+describe('Auth routes (/api/auth)', () => {
+  describe('POST /api/auth/signup', () => {
+    it.skip('returns 201 with user data on valid signup');
+    it.skip('returns 400 when required fields are missing');
+    it.skip('returns 409 when email is already registered');
+  });
 
-// POST /api/auth/signup
-router.post('/signup', (req, res) => {
-  const { name, email, password } = req.body;
+  describe('POST /api/auth/login', () => {
+    it.skip('returns 200 with a token on valid credentials');
+    it.skip('returns 401 on invalid password');
+    it.skip('returns 404 when email is not found');
+  });
 
-  if (!name || !email || !password) {
-    return res.status(400).json({
-      success: false,
-      error: 'name, email, and password are required',
-    });
-  }
+  describe('POST /api/auth/logout', () => {
+    it.skip('returns 200 on successful logout');
+  });
 
-  return res.status(201).json({
-    success: true,
-    message: 'User signed up successfully',
-    user: {
-      id: 101,
-      name,
-      email,
-    },
+  describe('POST /api/auth/forgot-password', () => {
+    it.skip('returns 200 when email exists');
+    it.skip('returns 404 when email is not found');
   });
 });
-
-// POST /api/auth/login
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      error: 'email and password are required',
-    });
-  }
-
-  return res.status(200).json({
-    success: true,
-    message: 'Login successful',
-    token: 'mock-jwt-token-12345',
-    user: {
-      id: 101,
-      name: 'Coco User',
-      email,
-    },
-  });
-});
-
-// POST /api/auth/logout
-router.post('/logout', (req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: 'Logout successful',
-  });
-});
-
-// POST /api/auth/forgot-password
-router.post('/forgot-password', (req, res) => {
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({
-      success: false,
-      error: 'email is required',
-    });
-  }
-
-  return res.status(200).json({
-    success: true,
-    message: 'Password reset link sent',
-    email,
-  });
-});
-
-export default router;
