@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-function ForgotPassword({ onBack }) {
+function ForgotPassword({ onBack, onSubmitEmail }) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!email.trim()) {
       setError('Please enter your email address.');
@@ -16,6 +16,14 @@ function ForgotPassword({ onBack }) {
       return;
     }
     setError('');
+
+    const result = await onSubmitEmail(email);
+
+    if (!result.success) {
+      setError(result.error || 'Request failed.');
+      return;
+    }
+
     setSubmitted(true);
   }
 
