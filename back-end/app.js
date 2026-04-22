@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import authRoutes from './routes/auth.js';
 import taskRoutes from './routes/tasks.js';
+import postsRoutes from './routes/posts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,14 +16,16 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/tasks',taskRoutes)
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/', authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/posts', postsRoutes);
+app.use('/api/posts', postsRoutes);
 
 const buildPath = join(__dirname, '..', 'front-end', 'build');
 app.use(express.static(buildPath));
