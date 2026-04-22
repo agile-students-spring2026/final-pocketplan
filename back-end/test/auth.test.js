@@ -128,3 +128,26 @@ describe('Auth routes (/api/auth)', () => {
     });
   });
 });
+
+describe('Top-level auth routes (POST /signup, POST /login)', () => {
+  it('POST /signup matches POST /api/auth/signup behavior', async () => {
+    const res = await request(app)
+      .post('/signup')
+      .send({ name: 'Root User', email: 'root@example.com', password: 'secret' });
+    expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
+    expect(res.body.user.email).to.equal('root@example.com');
+  });
+
+  it('POST /login succeeds after POST /signup', async () => {
+    await request(app)
+      .post('/signup')
+      .send({ name: 'L', email: 'loginroot@example.com', password: 'pw123' });
+    const res = await request(app)
+      .post('/login')
+      .send({ email: 'loginroot@example.com', password: 'pw123' });
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+    expect(res.body).to.have.property('token');
+  });
+});
