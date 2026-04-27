@@ -24,18 +24,25 @@ router.get('/',(req,res)=>{
 });
 //post
 router.post('/',(req,res)=>{
-    const{title, dueDate}=req.body;
-    if(!title){
+    const { name, dueDate, hours, minutes, effort, priority, details } = req.body;
+
+    if (typeof name !== 'string' || !name.trim()) {
         return res.status(400).json({
             success: false,
-            error: 'Title is required',
+            error: 'Name is required',
         });
     }
-    const newTask ={
+
+    const newTask = {
         id: nextId++,
-        title,
+        name: name.trim(),
+        dueDate: dueDate || null,
+        hours: Number(hours) || 0,
+        minutes: Number(minutes) || 0,
+        effort: Number(effort) || 0,
+        priority: priority || '',
+        details: details || '',
         completed: false,
-        dueDate: dueDate ||null,
         userId: mockUserId,
     };
     tasks.push(newTask);
@@ -56,10 +63,26 @@ router.put('/:id',(req, res)=>{
             error:'Task Not Found',
         });
     }
-    const{title,completed,dueDate}=req.body;
-    if(title !== undefined)task.title=title;
-    if(completed!== undefined) task.completed=completed;
-    if(dueDate!==undefined)task.dueDate=dueDate;
+    const { name, completed, dueDate, hours, minutes, effort, priority, details } = req.body;
+
+    if (name !== undefined) {
+        if (typeof name !== 'string' || !name.trim()) {
+            return res.status(400).json({
+                success: false,
+                error: 'Name cannot be empty',
+            });
+        }
+    
+        task.name = name.trim();
+    }
+
+    if (completed !== undefined) task.completed = completed;
+    if (dueDate !== undefined) task.dueDate = dueDate;
+    if (hours !== undefined) task.hours = Number(hours) || 0;
+    if (minutes !== undefined) task.minutes = Number(minutes) || 0;
+    if (effort !== undefined) task.effort = Number(effort) || 0;
+    if (priority !== undefined) task.priority = priority;
+    if (details !== undefined) task.details = details;
     return res.status(200).json({
         success:true,
         message:'Task Updated Successfully',
