@@ -11,10 +11,15 @@
     "test:coverage": "c8 mocha"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+<<<<<<< HEAD
     "express-validator": "^7.3.2",
+=======
+    "jsonwebtoken": "^9.0.3",
+>>>>>>> 1745fed544baf3ed1f77690b2ac873237fb76880
     "mongoose": "^9.5.0",
     "morgan": "^1.10.0"
   },

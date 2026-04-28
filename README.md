@@ -45,10 +45,11 @@ Copy the example file and fill in your own values (never commit real secrets):
 cp back-end/.env.example back-end/.env
 ```
 
-| Variable     | Description                                          |
-|--------------|------------------------------------------------------|
-| `PORT`       | Port the Express server listens on (default: `3000`) |
-| `JWT_SECRET` | Secret key used to sign authentication tokens        |
+| Variable       | Description                                          |
+|----------------|------------------------------------------------------|
+| `PORT`         | Port the Express server listens on (default: `3000`) |
+| `JWT_SECRET`   | Secret key used to sign authentication tokens        |
+| `MONGODB_URI`  | MongoDB Atlas connection string                      |
 
 #### Install dependencies
 
