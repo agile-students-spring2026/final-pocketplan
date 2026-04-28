@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './auth.css';
 import SignUpEmail from './components/SignUpEmail';
 import LoginScreen from './components/LoginScreen';
@@ -73,19 +73,120 @@ function App() {
     setScreen(SCREENS.EDIT);
   };
 
-  const afterEditSave = (updatedTask) => {
-    setTasks(tasks.map((t) => (t === selectedTask ? updatedTask : t)));
-    setScreen(editTaskSource);
+  const afterEditSave = async (updatedTask) => {
+    const result = await updateTask(updatedTask);
+  
+    if (result.success) {
+      setScreen(editTaskSource);
+    } else {
+      setAuthMessage(result.error || 'Could not update task.');
+    }
   };
 
-  const afterDeleteConfirm = () => {
-    setTasks(tasks.filter((t) => t !== selectedTask));
-    setScreen(editTaskSource);
+  const afterDeleteConfirm = async () => {
+    const result = await removeTask(selectedTask);
+  
+    if (result.success) {
+      setScreen(editTaskSource);
+    } else {
+      setAuthMessage(result.error || 'Could not delete task.');
+    }
   };
 
   const todayTasks = tasks.filter((t) => t.dueDate === todayISO);
 
-  const API_BASE = 'http://localhost:3000';
+  const API_BASE = process.env.REACT_APP_API_URL || '';
+
+  async function loadTasks() {
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks`);
+      const data = await res.json();
+  
+      if (data.success) {
+        setTasks(data.tasks);
+      }
+  
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+  
+  async function createTask(newTask) {
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTask),
+      });
+  
+      const data = await res.json();
+  
+      if (data.success) {
+        setTasks((prevTasks) => [...prevTasks, data.task]);
+      }
+  
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+  
+  async function updateTask(updatedTask) {
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks/${updatedTask.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTask),
+      });
+  
+      const data = await res.json();
+  
+      if (data.success) {
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === data.task.id ? data.task : task
+          )
+        );
+      }
+  
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
+  
+  async function removeTask(taskToDelete) {
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks/${taskToDelete.id}`, {
+        method: 'DELETE',
+      });
+  
+      const data = await res.json();
+  
+      if (data.success) {
+        setTasks((prevTasks) =>
+          prevTasks.filter((task) => task.id !== taskToDelete.id)
+        );
+      }
+  
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: 'Cannot connect to server.',
+      };
+    }
+  }
 
   async function loginUser(email, password) {
     try {
@@ -158,6 +259,10 @@ function App() {
       };
     }
   }
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
 
   return (
     <div className="auth-page">
@@ -298,28 +403,39 @@ function App() {
           onBack={() => setScreen(SCREENS.WEEK)}
           onAddTask={() => setScreen(SCREENS.ADD)}
           onOpenEditView={() => setScreen(SCREENS.DAY_EDIT_VIEW)}
-          onToggleTask={(taskToToggle) => {
-            if (!taskToToggle.completed) {
-              const updated = tasks.map((t) =>
-                t === taskToToggle ? { ...t, completed: true } : t
-              );
-              setTasks(updated);
-              setCompletedTask({ ...taskToToggle, completed: true });
-              setScreen(SCREENS.COMPLETED);
+          onToggleTask={async (taskToToggle) => {
+            const updatedTask = {
+              ...taskToToggle,
+              completed: !taskToToggle.completed,
+            };
+          
+            const result = await updateTask(updatedTask);
+          
+            if (result.success) {
+              if (updatedTask.completed) {
+                setCompletedTask(result.task);
+                setScreen(SCREENS.COMPLETED);
+              }
             } else {
-              setTasks(tasks.map((t) =>
-                t === taskToToggle ? { ...t, completed: false } : t
-              ));
+              setAuthMessage(result.error || 'Could not update task.');
             }
           }}
         />
       )}
       {screen === SCREENS.COMPLETED && (
         <TaskCompleted
-          completedTask={completedTask}
-          onBack={() => setScreen(SCREENS.TODAY)}
-          onDone={() => setScreen(SCREENS.TODAY)}
-        />
+        completedTask={completedTask}
+        onBack={() => setScreen(SCREENS.TODAY)}
+        onDone={async (finishedTask) => {
+          const result = await updateTask(finishedTask);
+      
+          if (result.success) {
+            setScreen(SCREENS.TODAY);
+          } else {
+            setAuthMessage(result.error || 'Could not save completed task.');
+          }
+        }}
+      />
       )}
       {screen === SCREENS.DAY_EDIT_VIEW && (
         <DayEditView
@@ -339,14 +455,19 @@ function App() {
               setScreen(SCREENS.DAY);
             }
           }}
-          onSaveTask={(newTask) => {
-            setTasks([...tasks, { ...newTask, completed: false }]);
-            if (newTask.dueDate === todayISO) {
-              setSelectedDay(todayISO);
-              setScreen(SCREENS.TODAY);
+          onSaveTask={async (newTask) => {
+            const result = await createTask(newTask);
+          
+            if (result.success) {
+              if (newTask.dueDate === todayISO) {
+                setSelectedDay(todayISO);
+                setScreen(SCREENS.TODAY);
+              } else {
+                setSelectedDay(newTask.dueDate);
+                setScreen(SCREENS.DAY);
+              }
             } else {
-              setSelectedDay(newTask.dueDate);
-              setScreen(SCREENS.DAY);
+              setAuthMessage(result.error || 'Could not create task.');
             }
           }}
         />

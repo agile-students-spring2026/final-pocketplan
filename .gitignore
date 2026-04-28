@@ -127,3 +127,8 @@ typings/
 ## Jekyll artifacts
 **/.jekyll-cache
 **/_site/
+# Local environment files
+back-end/.env
+front-end/.env
+.env.*.local
+
