@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm test:*)",
       "Bash(npm install:*)",
-      "Bash(npx mocha:*)"
+      "Bash(npx mocha:*)",
+      "Bash(node -e \"process.env.JWT_SECRET='testsecret'; import\\('./app.js'\\)\")",
+      "Bash(JWT_SECRET=testsecret npx mocha)"
     ]
   }
 }
