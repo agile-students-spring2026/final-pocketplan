@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validationResult } from 'express-validator';
+import { createTaskValidation, updateTaskValidation } from '../validation/taskValidation.js';
 
 const router = Router();
 
@@ -23,9 +25,15 @@ router.get('/',(req,res)=>{
     });
 });
 //post
-router.post('/',(req,res)=>{
+router.post('/', createTaskValidation, (req,res)=>{
     const { name, dueDate, hours, minutes, effort, priority, details } = req.body;
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({
+            success: false,
+            errors: errors.array(),
+        });
+    }
     if (typeof name !== 'string' || !name.trim()) {
         return res.status(400).json({
             success: false,
@@ -53,8 +61,15 @@ router.post('/',(req,res)=>{
     });
 });
 //put
-router.put('/:id',(req, res)=>{
+router.put('/:id', updateTaskValidation, (req, res)=>{
     const id=parseInt(req.params.id);
+    const errors=validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({
+            success: false,
+            errors: errors.array(),
+        });
+    }
     const task=tasks.find(t=> t.id === id && t.userId === mockUserId);
 
     if (!task){
