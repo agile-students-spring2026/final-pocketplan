@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validationResult } from 'express-validator';
+import { createTaskValidation, updateTaskValidation } from '../validation/taskValidation.js';
 
 const router = Router();
 
@@ -23,19 +25,25 @@ router.get('/',(req,res)=>{
     });
 });
 //post
-router.post('/',(req,res)=>{
-    const{title, dueDate}=req.body;
-    if(!title){
+router.post('/', createTaskValidation, (req,res)=>{
+    const errors=validationResult(req);
+    if (!errors.isEmpty()){
         return res.status(400).json({
             success: false,
-            error: 'Title is required',
+            errors: errors.array(),
         });
     }
+    const{name, dueDate, hours, minutes, effort, priority, details}=req.body;
     const newTask ={
         id: nextId++,
-        title,
+        name,
+        dueDate: dueDate || null,
+        hours: hours ?? 0,
+        minutes: minutes ?? 0,
+        effort: effort ?? '',
+        priority: priority ?? '',
+        details: details ?? '',
         completed: false,
-        dueDate: dueDate ||null,
         userId: mockUserId,
     };
     tasks.push(newTask);
@@ -46,8 +54,15 @@ router.post('/',(req,res)=>{
     });
 });
 //put
-router.put('/:id',(req, res)=>{
+router.put('/:id', updateTaskValidation, (req, res)=>{
     const id=parseInt(req.params.id);
+    const errors=validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({
+            success: false,
+            errors: errors.array(),
+        });
+    }
     const task=tasks.find(t=> t.id === id && t.userId === mockUserId);
 
     if (!task){
@@ -56,10 +71,17 @@ router.put('/:id',(req, res)=>{
             error:'Task Not Found',
         });
     }
-    const{title,completed,dueDate}=req.body;
-    if(title !== undefined)task.title=title;
-    if(completed!== undefined) task.completed=completed;
-    if(dueDate!==undefined)task.dueDate=dueDate;
+    const{name, completed, dueDate, hours, minutes, effort, priority, details}=req.body;
+    if (name !== undefined) task.name = name;
+    if (completed !== undefined) task.completed = completed;
+    if (hours !== undefined) task.hours = hours;
+    if (minutes !== undefined) task.minutes = minutes; 
+    if(details !== undefined)task.details=details;
+    if (effort !== undefined) task.effort = effort;
+    if (priority !== undefined) task.priority = priority;
+    if(dueDate !== undefined) task.dueDate = dueDate;
+
+
     return res.status(200).json({
         success:true,
         message:'Task Updated Successfully',
