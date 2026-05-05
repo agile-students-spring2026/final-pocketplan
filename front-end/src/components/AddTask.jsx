@@ -1,3 +1,11 @@
+/**
+ * AddTask Component
+ * 
+ * This component renders a form where users can add a new task.
+ * The form includes an input field to enter a tasks due date, name, estimated time of completion, estimated effort, priority and any additional information
+ * 
+ * */
+
 import React, { useState } from "react";
 
 function AddTask({ onBack, onSaveTask, weekDays, initialDate }) {

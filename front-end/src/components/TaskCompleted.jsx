@@ -1,3 +1,10 @@
+/**
+ * TaskCompleted Component
+ * 
+ * This component displays post task survey which collects the total time spent on the task, total effort, and any important notes the user might want to add
+ *
+ **/
+
 import React, { useState } from "react";
 
 function TaskCompleted({ onBack, onDone, completedTask }) {

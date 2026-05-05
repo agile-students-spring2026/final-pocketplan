@@ -1,3 +1,12 @@
+/**
+ * EditTask Component
+ * 
+ * This component allows users to edit an existing task.
+ * The form includes fields to edit the task name, due date, estimated time of completion, priority, and any other task details.
+ * It also gives the user the ability to delete the task.
+ * 
+ **/
+
 import React, {useState} from "react";
 
 function EditTask({onBack, task, onSaveTask, onDeleteTask}){

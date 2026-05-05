@@ -1,3 +1,11 @@
+/**
+ * LoginScreen Component
+ * 
+ * This component renders the login form, allowing users to authenticate using their username/email and password.
+ * It includes a form with fields for the user's login credentials, a forgot password option, and a log in button
+ * 
+ **/
+
 import React, { useState } from 'react';
 
 function LoginScreen({ onBack, onLogin, onForgotPassword }) {

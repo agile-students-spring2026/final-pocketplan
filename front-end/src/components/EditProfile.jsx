@@ -1,3 +1,12 @@
+/**
+ * EditProfile Component
+ * 
+ * This component allows users to edit their profile information.
+ * It includes fields for updating the user's name and email.
+ * It also gives the user the ability to save their information and delete their account completely.
+ * 
+ * */
+
 import React, { useState } from 'react';
 
 function EditProfile({ profile, onBack, onSaveProfile, onDeleteAccount }) {

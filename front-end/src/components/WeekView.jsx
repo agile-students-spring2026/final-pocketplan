@@ -1,3 +1,11 @@
+/**
+ * WeekView Component
+ * 
+ * This component displays the tasks and activities for the entire week.
+ * It shows tasks categorized by days of the week and the amount of tasks that have to be done by that date.
+ * 
+ **/
+
 import React from "react";
 
 function WeekView({ onBack, onSelectDay, tasks, weekDays, todayISO }) {

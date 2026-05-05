@@ -1,3 +1,14 @@
+
+/**
+ * Profile Component
+ * 
+ * This component displays the user's profile information, including their name, email, and other account details.
+ * This component displays the users analytics based on their total tasks, tasks they have completed, tasks they have left to complete, and their completion rate.
+ * Users can set their preferences on app display via this screen.
+ * Users can also update their profile from this screen.
+ * 
+ **/
+
 import React, { useState } from 'react';
 
 function Profile({ profile, tasks, onBack, onEditProfile, onLogOut }) {
