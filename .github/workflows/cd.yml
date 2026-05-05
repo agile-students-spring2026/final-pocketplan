@@ -8,9 +8,6 @@ jobs:
   deploy-frontend:
     name: Deploy front-end to Vercel
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: front-end
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +19,7 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel (production)
-        run: vercel --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
+        run: vercel --prod --yes --cwd front-end --token ${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_FRONTEND_PROJECT_ID }}
@@ -30,9 +27,6 @@ jobs:
   deploy-backend:
     name: Deploy back-end to Vercel
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: back-end
     steps:
       - uses: actions/checkout@v4
 
@@ -44,7 +38,7 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel (production)
-        run: vercel --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
+        run: vercel --prod --yes --cwd back-end --token ${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_BACKEND_PROJECT_ID }}
