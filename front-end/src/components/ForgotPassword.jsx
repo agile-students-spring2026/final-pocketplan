@@ -1,3 +1,11 @@
+/**
+ * ForgotPassword Component
+ * 
+ * This component provides a form for users to reset their password.
+ * It includes a field to enter the email address for password recovery.
+ * 
+ **/
+
 import { useState } from 'react';
 
 function ForgotPassword({ onBack, onSubmitEmail }) {

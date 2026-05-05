@@ -1,3 +1,12 @@
+/**
+ * DayTaskList Component
+ * 
+ * This component takes a list of tasks on a specific date and displays each task along with its priority.
+ * Each task includes a name, priority, due date, estimated time of completion, estimated effort, and any additional information.
+ * 
+ * */
+
+
 import React from "react";
 import { formatDisplayDate } from "../utils/dates";
 

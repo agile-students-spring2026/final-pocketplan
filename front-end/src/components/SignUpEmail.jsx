@@ -1,3 +1,11 @@
+/**
+ * SignUpEmail Component
+ * 
+ * This component renders the first step of the user sign-up process, where users provide their email address.
+ * After entering the email, users can proceed to the next step to provide other information such as a password.
+ * 
+ **/
+
 import React, { useState } from 'react';
 
 function SignUpEmail({ onNext, onGoLogin }) {

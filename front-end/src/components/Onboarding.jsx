@@ -1,3 +1,11 @@
+/**
+ * Onboarding Component
+ * 
+ * This component is part of the onboarding process for new users.
+ * It allows users to put in any educational courses they are taking as well as any non-educational related commitments.
+ * 
+ **/
+
 import React, { useState } from 'react';
 
 function Onboarding({ onBack, onFinish }) {

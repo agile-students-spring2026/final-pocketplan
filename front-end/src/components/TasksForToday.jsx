@@ -1,3 +1,11 @@
+/**
+ * TasksForToday Component
+ * 
+ * This component displays a list of tasks that need to be completed today.
+ * It pulls the tasks from the user's schedule and shows them in a list format with its priority on the side.
+ * 
+ **/
+
 import React from "react";
 
 function TasksForToday({ tasks, onBack, onAddTask, onToggleTask, onOpenEditView }) {
