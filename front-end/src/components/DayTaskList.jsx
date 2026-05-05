@@ -32,7 +32,7 @@ function DayTaskList({ day, onBack, onAddTask, tasks, onEditTask }) {
               className="day-task-item"
               onClick={() => onEditTask(task)}
             >
-              {task.name}
+              <span className="day-task-name">{task.name}</span>
               {task.priority && (
                 <span className={`task-priority-badge priority-${task.priority.toLowerCase()}`}>
                   {task.priority}
