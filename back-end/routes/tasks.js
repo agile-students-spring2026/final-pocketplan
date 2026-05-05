@@ -1,94 +1,72 @@
 import { Router } from 'express';
 import { validationResult } from 'express-validator';
 import { createTaskValidation, updateTaskValidation } from '../validation/taskValidation.js';
+import { verifyToken } from '../middleware/auth.js';
+import Task from '../models/Task.js';
 
 const router = Router();
 
-// selma implement task routes here
-// GET    /api/tasks          – list all tasks for the logged-in user
-// POST   /api/tasks          – create a new task
-// PUT    /api/tasks/:id      – update a task
-// DELETE /api/tasks/:id      – delete a task
-
-//mock
-let tasks =[];
-let nextId=1;
-
-const mockUserId=101;
-
-//get
-router.get('/',(req,res)=>{
-    const userTasks=tasks.filter(task=>task.userId===mockUserId);
-    return res.status(200).json({
-        success: true,
-        tasks: userTasks,
-    });
+router.get('/', verifyToken, async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.user.id }).sort({ dueDate: 1, createdAt: 1 });
+    return res.status(200).json({ success: true, tasks });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: 'Could not fetch tasks.' });
+  }
 });
-//post
-router.post('/', createTaskValidation, (req,res)=>{
-    const { name, dueDate, hours, minutes, effort, priority, details } = req.body;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()){
-        return res.status(400).json({
-            success: false,
-            errors: errors.array(),
-        });
-    }
-    if (typeof name !== 'string' || !name.trim()) {
-        return res.status(400).json({
-            success: false,
-            error: 'Name is required',
-        });
-    }
 
-    const newTask = {
-        id: nextId++,
-        name: name.trim(),
-        dueDate: dueDate || null,
-        hours: Number(hours) || 0,
-        minutes: Number(minutes) || 0,
-        effort: Number(effort) || 0,
-        priority: priority || '',
-        details: details || '',
-        completed: false,
-        userId: mockUserId,
-    };
-    tasks.push(newTask);
-    return res.status(201).json({
-        success: true,
-        message: 'Task Created Successfully',
-        task: newTask,
+router.post('/', verifyToken, createTaskValidation, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ success: false, errors: errors.array() });
+  }
+
+  const { name, dueDate, hours, minutes, effort, priority, details } = req.body;
+
+  if (typeof name !== 'string' || !name.trim()) {
+    return res.status(400).json({ success: false, error: 'Name is required' });
+  }
+
+  try {
+    const task = await Task.create({
+      user: req.user.id,
+      name: name.trim(),
+      dueDate: dueDate || null,
+      hours: Number(hours) || 0,
+      minutes: Number(minutes) || 0,
+      effort: Number(effort) || 0,
+      priority: priority || '',
+      details: details || '',
     });
-});
-//put
-router.put('/:id', updateTaskValidation, (req, res)=>{
-    const id=parseInt(req.params.id);
-    const errors=validationResult(req);
-    if (!errors.isEmpty()){
-        return res.status(400).json({
-            success: false,
-            errors: errors.array(),
-        });
-    }
-    const task=tasks.find(t=> t.id === id && t.userId === mockUserId);
 
-    if (!task){
-        return res.status(404).json({
-            success:false,
-            error:'Task Not Found',
-        });
+    return res.status(201).json({ success: true, message: 'Task Created Successfully', task });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: 'Could not create task.' });
+  }
+});
+
+router.put('/:id', verifyToken, updateTaskValidation, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ success: false, errors: errors.array() });
+  }
+
+  try {
+    const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+    if (!task) {
+      return res.status(404).json({ success: false, error: 'Task Not Found' });
     }
-    const { name, completed, dueDate, hours, minutes, effort, priority, details } = req.body;
+
+    const {
+      name, completed, dueDate, hours, minutes, effort, priority, details,
+      hoursSpent, minutesSpent, effortRating, completionNotes,
+    } = req.body;
 
     if (name !== undefined) {
-        if (typeof name !== 'string' || !name.trim()) {
-            return res.status(400).json({
-                success: false,
-                error: 'Name cannot be empty',
-            });
-        }
-    
-        task.name = name.trim();
+      if (typeof name !== 'string' || !name.trim()) {
+        return res.status(400).json({ success: false, error: 'Name cannot be empty' });
+      }
+      task.name = name.trim();
     }
 
     if (completed !== undefined) task.completed = completed;
@@ -98,28 +76,29 @@ router.put('/:id', updateTaskValidation, (req, res)=>{
     if (effort !== undefined) task.effort = Number(effort) || 0;
     if (priority !== undefined) task.priority = priority;
     if (details !== undefined) task.details = details;
-    return res.status(200).json({
-        success:true,
-        message:'Task Updated Successfully',
-        task,
-    });
+    if (hoursSpent !== undefined) task.hoursSpent = Number(hoursSpent);
+    if (minutesSpent !== undefined) task.minutesSpent = Number(minutesSpent);
+    if (effortRating !== undefined) task.effortRating = Number(effortRating);
+    if (completionNotes !== undefined) task.completionNotes = completionNotes;
+
+    await task.save();
+
+    return res.status(200).json({ success: true, message: 'Task Updated Successfully', task });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: 'Could not update task.' });
+  }
 });
-//delete
-router.delete('/:id',(req,res)=>{
-    const id=parseInt(req.params.id);
-    const index=tasks.findIndex(
-        t => t.id===id&& t.userId === mockUserId
-    );
-    if(index=== -1){
-        return res.status(404).json({
-            success:false,
-            error: 'Task Not Found',
-        });
+
+router.delete('/:id', verifyToken, async (req, res) => {
+  try {
+    const task = await Task.findOneAndDelete({ _id: req.params.id, user: req.user.id });
+    if (!task) {
+      return res.status(404).json({ success: false, error: 'Task Not Found' });
     }
-    tasks.splice(index,1);
-    return res.status(200).json({
-        success:true,
-        message:'Task Deleted Successfully',
-    });
+    return res.status(200).json({ success: true, message: 'Task Deleted Successfully' });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: 'Could not delete task.' });
+  }
 });
+
 export default router;

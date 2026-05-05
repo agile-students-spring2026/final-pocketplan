@@ -16,6 +16,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Onboarding from './components/Onboarding';
 import EditProfile from './components/EditProfile';
+import BottomNav from './components/BottomNav';
 import { getTodayISO, getCurrentWeekDays, formatDisplayDate } from './utils/dates';
 
 const SCREENS = {
@@ -37,6 +38,17 @@ const SCREENS = {
   DELETE_CONFIRM: 'delete-confirm',
 };
 
+const BOTTOM_NAV_SCREENS = new Set([
+  SCREENS.DASHBOARD,
+  SCREENS.WEEK,
+  SCREENS.TODAY,
+  SCREENS.PROFILE,
+]);
+
+function normalizeTask(task) {
+  return { ...task, id: task.id || task._id };
+}
+
 function App() {
   const todayISO = getTodayISO();
   const weekDays = getCurrentWeekDays();
@@ -44,10 +56,10 @@ function App() {
   const [screen, setScreen] = useState(SCREENS.SIGNUP_EMAIL);
   const [selectedDay, setSelectedDay] = useState(todayISO);
   const [editTaskSource, setEditTaskSource] = useState(SCREENS.DAY_EDIT_VIEW);
-  const [isNewUser, setIsNewUser] = useState(true);
+  const [justSignedUp, setJustSignedUp] = useState(false);
   const [profile, setProfile] = useState({
-    name: 'John Doe',
-    email: 'johndoe@example.com',
+    name: '',
+    email: '',
   });
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -57,11 +69,30 @@ function App() {
 
   const currentDayLabel = `Today, ${formatDisplayDate(todayISO)}`;
 
+  const API_BASE = process.env.REACT_APP_API_URL || '';
+
+  function getAuthHeaders() {
+    const token = localStorage.getItem('pocketplan_token');
+    return {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+  }
+
   const handleLogOut = async () => {
     await logoutUser();
+    localStorage.removeItem('pocketplan_token');
+    setTasks([]);
+    setProfile({ name: '', email: '' });
     setScreen(SCREENS.LOGIN);
   };
-  const handleDeleteAccount = () => { setScreen(SCREENS.SIGNUP_EMAIL); };
+
+  const handleDeleteAccount = () => {
+    localStorage.removeItem('pocketplan_token');
+    setTasks([]);
+    setScreen(SCREENS.SIGNUP_EMAIL);
+  };
+
   const handleSaveProfile = (updatedProfile) => {
     setProfile(updatedProfile);
     setScreen(SCREENS.PROFILE);
@@ -75,7 +106,7 @@ function App() {
 
   const afterEditSave = async (updatedTask) => {
     const result = await updateTask(updatedTask);
-  
+
     if (result.success) {
       setScreen(editTaskSource);
     } else {
@@ -85,7 +116,7 @@ function App() {
 
   const afterDeleteConfirm = async () => {
     const result = await removeTask(selectedTask);
-  
+
     if (result.success) {
       setScreen(editTaskSource);
     } else {
@@ -95,96 +126,84 @@ function App() {
 
   const todayTasks = tasks.filter((t) => t.dueDate === todayISO);
 
-  const API_BASE = process.env.REACT_APP_API_URL || '';
-
   async function loadTasks() {
     try {
-      const res = await fetch(`${API_BASE}/api/tasks`);
+      const res = await fetch(`${API_BASE}/api/tasks`, {
+        headers: getAuthHeaders(),
+      });
       const data = await res.json();
-  
+
       if (data.success) {
-        setTasks(data.tasks);
+        setTasks(data.tasks.map(normalizeTask));
       }
-  
+
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
-  
+
   async function createTask(newTask) {
     try {
       const res = await fetch(`${API_BASE}/api/tasks`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(newTask),
       });
-  
+
       const data = await res.json();
-  
+
       if (data.success) {
-        setTasks((prevTasks) => [...prevTasks, data.task]);
+        setTasks((prev) => [...prev, normalizeTask(data.task)]);
       }
-  
+
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
-  
+
   async function updateTask(updatedTask) {
     try {
-      const res = await fetch(`${API_BASE}/api/tasks/${updatedTask.id}`, {
+      const taskId = updatedTask.id || updatedTask._id;
+      const res = await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(updatedTask),
       });
-  
+
       const data = await res.json();
-  
+
       if (data.success) {
-        setTasks((prevTasks) =>
-          prevTasks.map((task) =>
-            task.id === data.task.id ? data.task : task
-          )
+        const normalized = normalizeTask(data.task);
+        setTasks((prev) =>
+          prev.map((t) => (t.id === normalized.id ? normalized : t))
         );
       }
-  
+
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
-  
+
   async function removeTask(taskToDelete) {
     try {
-      const res = await fetch(`${API_BASE}/api/tasks/${taskToDelete.id}`, {
+      const taskId = taskToDelete.id || taskToDelete._id;
+      const res = await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: 'DELETE',
+        headers: getAuthHeaders(),
       });
-  
+
       const data = await res.json();
-  
+
       if (data.success) {
-        setTasks((prevTasks) =>
-          prevTasks.filter((task) => task.id !== taskToDelete.id)
-        );
+        setTasks((prev) => prev.filter((t) => t.id !== taskId && t._id !== taskId));
       }
-  
+
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
 
@@ -197,12 +216,14 @@ function App() {
       });
 
       const data = await res.json();
+
+      if (data.success && data.token) {
+        localStorage.setItem('pocketplan_token', data.token);
+      }
+
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
 
@@ -217,10 +238,7 @@ function App() {
       const data = await res.json();
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
 
@@ -235,10 +253,7 @@ function App() {
       const data = await res.json();
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
 
@@ -253,31 +268,35 @@ function App() {
       const data = await res.json();
       return data;
     } catch (err) {
-      return {
-        success: false,
-        error: 'Cannot connect to server.',
-      };
+      return { success: false, error: 'Cannot connect to server.' };
     }
   }
 
   useEffect(() => {
-    loadTasks();
+    const token = localStorage.getItem('pocketplan_token');
+    if (token) {
+      setScreen(SCREENS.DASHBOARD);
+      loadTasks();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const showBottomNav = BOTTOM_NAV_SCREENS.has(screen);
 
   return (
     <div className="auth-page">
       {authMessage && (
-        <p style={{ color: '#166534', fontSize: '0.9rem', marginBottom: '1rem' }}>
+        <p style={{ color: '#dc2626', fontSize: '0.9rem', marginBottom: '1rem' }}>
           {authMessage}
         </p>
       )}
       {screen === SCREENS.SIGNUP_EMAIL && (
         <SignUpEmail
-        onNext={(email) => {
-          setSignupEmail(email);
-          setScreen(SCREENS.SIGNUP_PASSWORD);
-        }}
-        onGoLogin={() => setScreen(SCREENS.LOGIN)}
+          onNext={(email) => {
+            setSignupEmail(email);
+            setScreen(SCREENS.SIGNUP_PASSWORD);
+          }}
+          onGoLogin={() => setScreen(SCREENS.LOGIN)}
         />
       )}
       {screen === SCREENS.LOGIN && (
@@ -288,14 +307,12 @@ function App() {
 
             if (result.success) {
               if (result.user) {
-                setProfile({
-                  name: result.user.name,
-                  email: result.user.email,
-                });
+                setProfile({ name: result.user.name, email: result.user.email });
               }
+              await loadTasks();
 
-              if (isNewUser) {
-                setIsNewUser(false);
+              if (justSignedUp) {
+                setJustSignedUp(false);
                 setScreen(SCREENS.ONBOARDING);
               } else {
                 setScreen(SCREENS.DASHBOARD);
@@ -315,12 +332,9 @@ function App() {
 
             if (result.success) {
               if (result.user) {
-                setProfile({
-                  name: result.user.name,
-                  email: result.user.email,
-                });
+                setProfile({ name: result.user.name, email: result.user.email });
               }
-
+              setJustSignedUp(true);
               setAuthMessage('Sign up successful. Please log in.');
               setScreen(SCREENS.LOGIN);
             }
@@ -331,8 +345,8 @@ function App() {
       )}
       {screen === SCREENS.FORGOT && (
         <ForgotPassword
-        onBack={() => setScreen(SCREENS.LOGIN)}
-        onSubmitEmail={forgotPasswordRequest}
+          onBack={() => setScreen(SCREENS.LOGIN)}
+          onSubmitEmail={forgotPasswordRequest}
         />
       )}
       {screen === SCREENS.ONBOARDING && (
@@ -404,16 +418,12 @@ function App() {
           onAddTask={() => setScreen(SCREENS.ADD)}
           onOpenEditView={() => setScreen(SCREENS.DAY_EDIT_VIEW)}
           onToggleTask={async (taskToToggle) => {
-            const updatedTask = {
-              ...taskToToggle,
-              completed: !taskToToggle.completed,
-            };
-          
+            const updatedTask = { ...taskToToggle, completed: !taskToToggle.completed };
             const result = await updateTask(updatedTask);
-          
+
             if (result.success) {
               if (updatedTask.completed) {
-                setCompletedTask(result.task);
+                setCompletedTask(normalizeTask(result.task));
                 setScreen(SCREENS.COMPLETED);
               }
             } else {
@@ -424,18 +434,24 @@ function App() {
       )}
       {screen === SCREENS.COMPLETED && (
         <TaskCompleted
-        completedTask={completedTask}
-        onBack={() => setScreen(SCREENS.TODAY)}
-        onDone={async (finishedTask) => {
-          const result = await updateTask(finishedTask);
-      
-          if (result.success) {
-            setScreen(SCREENS.TODAY);
-          } else {
-            setAuthMessage(result.error || 'Could not save completed task.');
-          }
-        }}
-      />
+          completedTask={completedTask}
+          onBack={() => setScreen(SCREENS.TODAY)}
+          onDone={async (finishedTask) => {
+            const result = await updateTask({
+              ...finishedTask,
+              hoursSpent: finishedTask.hoursSpent,
+              minutesSpent: finishedTask.minutesSpent,
+              effortRating: finishedTask.effortRating,
+              completionNotes: finishedTask.completionNotes,
+            });
+
+            if (result.success) {
+              setScreen(SCREENS.TODAY);
+            } else {
+              setAuthMessage(result.error || 'Could not save completed task.');
+            }
+          }}
+        />
       )}
       {screen === SCREENS.DAY_EDIT_VIEW && (
         <DayEditView
@@ -457,7 +473,7 @@ function App() {
           }}
           onSaveTask={async (newTask) => {
             const result = await createTask(newTask);
-          
+
             if (result.success) {
               if (newTask.dueDate === todayISO) {
                 setSelectedDay(todayISO);
@@ -486,6 +502,15 @@ function App() {
           onBack={() => setScreen(SCREENS.EDIT)}
           onCancel={() => setScreen(SCREENS.EDIT)}
           onConfirmDelete={afterDeleteConfirm}
+        />
+      )}
+      {showBottomNav && (
+        <BottomNav
+          screen={screen}
+          onDashboard={() => setScreen('dashboard')}
+          onWeek={() => setScreen('week')}
+          onToday={() => { setSelectedDay(todayISO); setScreen('today'); }}
+          onProfile={() => setScreen('profile')}
         />
       )}
     </div>
