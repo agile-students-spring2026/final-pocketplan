@@ -25,6 +25,33 @@ router.post('/signup', signupValidation, async (req, res) => {
     return res.status(400).json({ success: false, error: 'name, email, and password are required' });
   }
 
+  /**
+   * Added a password checker for length, if char, and if num
+   */
+  
+  if (password.length < 6) {
+    return res.status(400).json({
+      success: false,
+      error: 'Password must be at least 6 characters long',
+    });
+  }
+
+  if (!/[A-Z]/.test(password)){
+    return res.status(400).json({
+      success:false,
+      error: 'Password must contain at least one uppercase letter'
+    
+    });
+  }
+
+  if (!/[0-9]/.test(password)){
+    return res.status(400).json({
+      success: false,
+      error: 'Password must contain at least one number',
+    });
+  }
+
+
   const normalizedEmail=normalizeEmail(email);
 
   try {
