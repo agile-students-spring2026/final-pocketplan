@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./back-end
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      NODE_ENV: production
+      JWT_SECRET: ${JWT_SECRET}
+      MONGODB_URI: ${MONGODB_URI}
+    restart: unless-stopped
+
+  frontend:
+    build: ./front-end
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -113,7 +113,62 @@ npm run build
 
 Output is placed in `front-end/build/`. The Express server serves this folder as static files when running in production.
 
-## comment check
+---
+
+## Docker (extra credit)
+
+Both services are containerized. [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/) are required.
+
+Copy your environment variables into a root `.env` file (never commit this):
+
+```bash
+cp back-end/.env.example .env
+# then fill in JWT_SECRET and MONGODB_URI
+```
+
+Build and start both containers:
+
+```bash
+docker compose up --build
+```
+
+| Service | URL |
+|---------|-----|
+| Front-end | http://localhost:80 |
+| Back-end API | http://localhost:3001 |
+
+Stop containers:
+
+```bash
+docker compose down
+```
+
+---
+
+## CI / CD (extra credit)
+
+### Continuous Integration (GitHub Actions)
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on **every push and pull request** to any branch:
+
+- **Back-end tests** — runs `npm test` (Mocha) in `back-end/`; DB-dependent tests are skipped when no `MONGODB_URI` is set, so the health, CORS, and auth-structure tests always run.
+- **Front-end build** — runs `npm run build` in `front-end/` to confirm the React app compiles.
+
+### Continuous Deployment (GitHub Actions → Vercel)
+
+[`.github/workflows/cd.yml`](.github/workflows/cd.yml) runs on **every push to `main`/`master`** and redeploys both services to Vercel automatically.
+
+Three repository secrets must be set in **GitHub → Settings → Secrets and variables → Actions**:
+
+| Secret | Where to find it |
+|--------|-----------------|
+| `VERCEL_TOKEN` | Vercel dashboard → Account → Tokens |
+| `VERCEL_ORG_ID` | Vercel dashboard → Account → Settings → General |
+| `VERCEL_FRONTEND_PROJECT_ID` | Vercel project settings for the front-end |
+| `VERCEL_BACKEND_PROJECT_ID` | Vercel project settings for the back-end |
+
+---
+
 ## Additional Documentation
 
 Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
