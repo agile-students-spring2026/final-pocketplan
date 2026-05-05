@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function TaskCompleted({ onBack, onDone, completedTask }) {
   const [hoursSpent, setHoursSpent] = useState(completedTask ? completedTask.hours : 0);
   const [minutesSpent, setMinutesSpent] = useState(completedTask ? completedTask.minutes : 0);
-  const [difficulty, setDifficulty] = useState(0);
+  const [effortRating, setEffortRating] = useState(0);
   const [notes, setNotes] = useState("");
 
   return (
@@ -57,13 +57,11 @@ function TaskCompleted({ onBack, onDone, completedTask }) {
         <span>55</span>
       </div>
 
-      <label className="task-label">Difficulty:</label>
+      <label className="task-label">Effort:</label>
       <div className="star-row">
-        <span className={difficulty >= 1 ? "star active" : "star"} onClick={() => setDifficulty(1)}>★</span>
-        <span className={difficulty >= 2 ? "star active" : "star"} onClick={() => setDifficulty(2)}>★</span>
-        <span className={difficulty >= 3 ? "star active" : "star"} onClick={() => setDifficulty(3)}>★</span>
-        <span className={difficulty >= 4 ? "star active" : "star"} onClick={() => setDifficulty(4)}>★</span>
-        <span className={difficulty >= 5 ? "star active" : "star"} onClick={() => setDifficulty(5)}>★</span>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <span key={n} className={effortRating >= n ? "star active" : "star"} onClick={() => setEffortRating(n)}>★</span>
+        ))}
       </div>
 
       <label className="task-label">Notes:</label>
@@ -82,7 +80,7 @@ function TaskCompleted({ onBack, onDone, completedTask }) {
             ...completedTask,
             hoursSpent,
             minutesSpent,
-            difficulty,
+            effortRating,
             completionNotes: notes,
           })
         }

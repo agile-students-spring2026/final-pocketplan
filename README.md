@@ -1,5 +1,12 @@
 # Pocket Plan
 
+## Live Deployment
+
+| | URL |
+|---|---|
+| **Frontend (App)** | https://pocketplan-frontend.vercel.app |
+| **Backend (API)** | https://pocketplan-backend.vercel.app |
+
 ## Product Vision Statement
 
 **PocketPlan** helps college students plan their schedules more realistically by letting them estimate tasks, log actual time spent, and see how estimates compare to reality so they can recalibrate and avoid overcommitment.

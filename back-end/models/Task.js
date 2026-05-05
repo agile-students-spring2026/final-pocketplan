@@ -46,6 +46,26 @@ const taskSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    hoursSpent: {
+      type: Number,
+      default: null,
+      min: 0,
+    },
+    minutesSpent: {
+      type: Number,
+      default: null,
+      min: 0,
+    },
+    effortRating: {
+      type: Number,
+      default: null,
+      min: 0,
+      max: 5,
+    },
+    completionNotes: {
+      type: String,
+      default: '',
+    },
   },
   { timestamps: true }
 );

@@ -55,12 +55,12 @@ function AddTask({ onBack, onSaveTask, weekDays, initialDate }) {
         className="task-slider-hr"
         type="range"
         min="0"
-        max="5"
+        max="10"
         value={hours}
         onChange={(e) => setHours(Number(e.target.value))}
       />
       <div className="task-numbers-hr">
-        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+        <span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span>
       </div>
 
       <p className="task-sub">
