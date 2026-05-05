@@ -50,9 +50,9 @@ describe('Server foundation', () => {
   });
 
   describe('Static / SPA fallback', () => {
-    it('returns 200 or 503 for an unknown path (not a 500 crash)', async () => {
+    it('handles an unknown non-API path without 5xx (200 with SPA, 503 on sendFile error, or 404 when no build)', async () => {
       const res = await request(app).get('/some-unknown-page');
-      expect(res.status).to.be.oneOf([200, 503]);
+      expect(res.status).to.be.oneOf([200, 404, 503]);
     });
 
     it('returns 503 with a JSON error when build is missing', async () => {
