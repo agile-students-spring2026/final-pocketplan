@@ -1,3 +1,11 @@
+/** 
+  * SignUpPassword Component
+  * 
+  * This component renders the password input step for the user sign-up process.
+  * It includes fields for the user to choose and confirm their password.
+  *
+  **/
+
 import React, { useState } from 'react';
 
 function SignUpPassword({ onBack, onNext }) {

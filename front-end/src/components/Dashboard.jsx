@@ -1,3 +1,13 @@
+/**
+ * Dashboard Component
+ * 
+ * This component serves as the main container for the application.
+ * It manages the state of the tasks for the current day and passes them down to the DayTaskList component for display.
+ * It also displays a any upcoming tasks the user might have later on in the week.
+ * Access to the profile is located on this screen as well.
+ * 
+ **/ 
+
 import React from "react";
 
 function Dashboard({ tasks, todayISO, weekDays, currentDayLabel, onProfileClick, onWeekClick, onTodayClick }) {
