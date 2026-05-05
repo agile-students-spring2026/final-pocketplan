@@ -152,6 +152,10 @@ body {
 
 .auth-btn-primary:hover { background: #1f2937; }
 
+.auth-btn-primary:active {
+  transform: scale (0.98)
+}
+
 .auth-btn-secondary {
   width: 100%;
   padding: 0.7rem 1rem;
@@ -196,6 +200,7 @@ body {
   padding: 0;
   color: #2563eb;
   text-decoration: underline;
+  transition: opacity 0.15s ease;
   cursor: pointer;
   font-size: inherit;
 }
