@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -368,6 +373,10 @@ body {
 }
 
 .day-task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.6rem 0.25rem;
   border-bottom: 1px solid #f3f4f6;
   cursor: pointer;
@@ -380,6 +389,13 @@ body {
 .day-task-item:hover {
   color: #111;
   text-decoration: underline;
+}
+
+.day-task-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .add-task-btn {
@@ -492,9 +508,13 @@ body {
 .task-slider-hr,
 .task-slider-min,
 .task-slider {
+  display: block;
   width: 100%;
+  max-width: 100%;
   accent-color: #374151;
   margin: 0;
+  box-sizing: border-box;
+  touch-action: none;
 }
 
 .task-numbers-hr,
@@ -1038,6 +1058,8 @@ body.dark-mode .auth-btn-secondary:hover {
   cursor: pointer;
   position: relative;
   gap: 2px;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .day-picker-btn:hover {
@@ -1046,14 +1068,14 @@ body.dark-mode .auth-btn-secondary:hover {
 }
 
 .day-picker-selected {
-  background: #374151;
-  border-color: #374151;
-  color: #fff;
+  background: #374151 !important;
+  border-color: #374151 !important;
+  color: #fff !important;
 }
 
 .day-picker-selected .day-picker-short,
 .day-picker-selected .day-picker-num {
-  color: #fff;
+  color: #fff !important;
 }
 
 .day-picker-today {
@@ -1127,12 +1149,13 @@ body.dark-mode .auth-btn-secondary:hover {
 
 .task-priority-badge {
   display: inline-block;
+  flex-shrink: 0;
   font-size: 0.7rem;
   font-weight: 600;
   border-radius: 4px;
   padding: 1px 6px;
-  margin-left: 8px;
-  vertical-align: middle;
+  margin-left: 0;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -1256,5 +1279,53 @@ body.dark-mode .bottom-nav-item {
 body.dark-mode .bottom-nav-item:hover,
 body.dark-mode .bottom-nav-active {
   color: #f9fafb;
+}
+
+/* ── Mobile layout fixes ─────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 1rem 0.75rem 5rem;
+  }
+
+  .auth-card,
+  .dashboard-container,
+  .edit-profile-container {
+    padding: 1.25rem 1rem;
+    border-radius: 10px;
+  }
+
+  /* Ensure range inputs fill their container on mobile WebKit */
+  .task-slider-hr,
+  .task-slider-min,
+  .task-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+  }
+
+  /* Priority selection row wraps on very narrow screens */
+  .priority-row {
+    flex-wrap: wrap;
+  }
+
+  .priority-btn {
+    flex: 1 1 auto;
+    min-width: 60px;
+    font-size: 0.82rem;
+    padding: 0.5rem 0.2rem;
+  }
+
+  /* Day picker scrolls horizontally without clipping */
+  .day-picker-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .day-picker-row::-webkit-scrollbar {
+    display: none;
+  }
 }
 

@@ -5,6 +5,7 @@ import { validationResult } from 'express-validator';
 import { signupValidation, loginValidation } from '../validation/authValidation.js';
 import User from '../models/User.js';
 
+
 const router = Router();
 
 const normalizeEmail = (email)=>{
